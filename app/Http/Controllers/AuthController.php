@@ -14,9 +14,7 @@ class AuthController extends Controller
      */
     public function getUser()
     {
-        dd(Auth::user());
-
-        return response()->json();
+        return response()->json(Auth::user());
     }
 
     /**
@@ -24,15 +22,10 @@ class AuthController extends Controller
      *
      * @return JsonResponse
      */
-    public function postLogin(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
-        /**
-         * Token on success | false on fail
-         *
-         * @var string | boolean
-         */
         $token = Auth::attempt($credentials);
 
         if (!$token) {
@@ -49,7 +42,7 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function deleteLogout()
+    public function logout()
     {
         Auth::logout();
 

@@ -6,7 +6,7 @@ use Laravel\Lumen\Routing\Router;
 /* Public Routes */
 $router->post('/auth/login', [
     'as' => 'auth.login',
-    'uses' => 'AuthController@postLogin',
+    'uses' => 'AuthController@login',
 ]);
 
 /* Protected Routes */
@@ -20,14 +20,18 @@ $router->group([
         'as' => 'auth.user'
     ]);
     $router->delete('/auth/logout', [
-        'uses' => 'AuthController@deleteLogout',
+        'uses' => 'AuthController@logout',
         'as' => 'auth.logout'
     ]);
 
     /* Article Endpoints */
     $router->get('/articles', [
-        'uses' => 'ArticlesController@all',
-        'as' => 'articles.all'
+        'uses' => 'ArticlesController@index',
+        'as' => 'articles.index'
+    ]);
+    $router->post('/articles', [
+        'uses' => 'ArticlesController@create',
+        'as' => 'articles.create'
     ]);
     $router->get('/articles/{id}', [
         'uses' => 'ArticlesController@find',
