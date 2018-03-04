@@ -79,6 +79,7 @@ $app->routeMiddleware([
 */
 
 $app->register(Yega\Auth\JWTAuthServiceProvider::class);
+
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 

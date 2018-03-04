@@ -7,6 +7,10 @@ use Laravel\Lumen\Routing\Router;
 $router->get('/', function () {
     return response()->json(['message' => 'Welcome to Lumen API Starter']);
 });
+$router->post('/auth/register', [
+    'as' => 'auth.register',
+    'uses' => 'AuthController@register',
+]);
 $router->post('/auth/login', [
     'as' => 'auth.login',
     'uses' => 'AuthController@login',
