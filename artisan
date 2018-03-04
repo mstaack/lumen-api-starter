@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 |
 */
 
-$app = require __DIR__.'/bootstrap/app.php';
+$app = require __DIR__ . '/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +27,8 @@ $app = require __DIR__.'/bootstrap/app.php';
 | or another output device for the developers. Here goes nothing!
 |
 */
+
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
 $kernel = $app->make(
     'Illuminate\Contracts\Console\Kernel'
