@@ -28,11 +28,6 @@ $app = require __DIR__ . '/bootstrap/app.php';
 |
 */
 
-if ($app->environment() !== 'production') {
-    $app->register(\Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
-    $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-}
-
 $kernel = $app->make(
     'Illuminate\Contracts\Console\Kernel'
 );

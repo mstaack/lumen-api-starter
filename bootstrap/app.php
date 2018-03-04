@@ -79,7 +79,10 @@ $app->routeMiddleware([
 */
 
 $app->register(Yega\Auth\JWTAuthServiceProvider::class);
-
+$app->register(\Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+if ($app->environment() !== 'production') {
+    $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+}
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
