@@ -4,6 +4,7 @@
 - git clone
 - composer install
 - copy `env.example` to `.env` and add app&jwt keys
+- run migrations & seeders with `artisan migrate --seed`
 
 - Also consider running `composer meta` when adding models for better autocompletion
 
