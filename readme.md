@@ -22,3 +22,23 @@
 | DELETE | /articles/{id} | articles.delete | App\Http\Controllers\ArticlesController | delete  | auth       |
 +--------+----------------+-----------------+-----------------------------------------+---------+------------+
 ```
+
+# Make Commands
+```
+  lumen-api-starter git:(master) ✗ ./artisan  | grep make
+ make
+  make:command         Create a new Artisan command
+  make:controller      Create a new controller class
+  make:event           Create a new event class
+  make:job             Create a new job class
+  make:listener        Create a new event listener class
+  make:mail            Create a new email class
+  make:middleware      Create a new middleware class
+  make:migration       Create a new migration file
+  make:model           Create a new Eloquent model class
+  make:policy          Create a new policy class
+  make:provider        Create a new service provider class
+  make:resource        Create a new resource
+  make:seeder          Create a new seeder class
+  make:test            Create a new test class
+```

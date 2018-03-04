@@ -4,6 +4,9 @@
 use Laravel\Lumen\Routing\Router;
 
 /* Public Routes */
+$router->get('/', function () {
+    return response()->json(['message' => 'Welcome to Lumen API Starter']);
+});
 $router->post('/auth/login', [
     'as' => 'auth.login',
     'uses' => 'AuthController@login',
