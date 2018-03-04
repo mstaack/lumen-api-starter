@@ -36,16 +36,4 @@ class AuthController extends Controller
 
         return response()->json(['token' => $token, 'user' => Auth::user()]);
     }
-
-    /**
-     * Invalidate a token.
-     *
-     * @return Response
-     */
-    public function logout()
-    {
-        Auth::logout();
-
-        return response()->json(['message' => 'Logout successful!']);
-    }
 }

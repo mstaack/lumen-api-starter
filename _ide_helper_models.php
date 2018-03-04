@@ -1,0 +1,28 @@
+<?php
+/**
+ * A helper file for your Eloquent Models
+ * Copy the phpDocs from this file to the correct Model,
+ * And remove them from this file, to prevent double declarations.
+ *
+ * @author Barry vd. Heuvel <barryvdh@gmail.com>
+ */
+
+
+namespace App{
+/**
+ * App\Article
+ *
+ * @property-read \App\User $user
+ */
+	class Article extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\User
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Article[] $articles
+ */
+	class User extends \Eloquent {}
+}
+

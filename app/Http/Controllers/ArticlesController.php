@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
@@ -31,7 +32,12 @@ class ArticlesController extends Controller
      */
     public function create(Request $request)
     {
-        $article = Article::create($request->all());
+        $article = new Article;
+        $article->user_id = Auth::user()->id;
+        $article->title = $request->input('title');
+        $article->text = $request->input('text');
+
+        $article->save();
 
         return response()->json($article);
     }
@@ -46,6 +52,7 @@ class ArticlesController extends Controller
         $article = Article::find($id);
         $article->title = $request->input('title');
         $article->text = $request->input('text');
+
         $article->save();
 
         return response()->json($article);
