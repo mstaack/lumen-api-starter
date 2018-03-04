@@ -4,12 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     /**
+     * @return JsonResponse
+     */
+    public function getUser()
+    {
+        dd(Auth::user());
+
+        return response()->json();
+    }
+
+    /**
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function postLogin(Request $request)
@@ -30,5 +42,17 @@ class AuthController extends Controller
         }
 
         return response()->json(['token' => $token, 'user' => Auth::user()]);
+    }
+
+    /**
+     * Invalidate a token.
+     *
+     * @return Response
+     */
+    public function deleteLogout()
+    {
+        Auth::logout();
+
+        return response()->json(['message' => 'Logout successful!']);
     }
 }
