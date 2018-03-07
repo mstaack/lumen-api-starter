@@ -13,7 +13,8 @@
     "laravel/lumen-framework": "5.6.*",
     "vlucas/phpdotenv": "~2.2",
     "flipbox/lumen-generator": "^5.6",
-    "gboyegadada/lumen-jwt": "^1.0"
+    "gboyegadada/lumen-jwt": "^1.0",
+    "paragonie/paseto": "^0.5.0"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
