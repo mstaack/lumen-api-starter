@@ -79,7 +79,7 @@ class PasetoAuthGuard implements Guard
     }
 
     /**
-     * Determine if the current user is a guest.
+     * Determine if the current request is a guest user.
      *
      * @return bool
      * @throws TypeError
@@ -88,6 +88,10 @@ class PasetoAuthGuard implements Guard
      */
     public function guest()
     {
+        if ($this->user !== null) {
+            return false;
+        }
+
         return !$this->check();
     }
 

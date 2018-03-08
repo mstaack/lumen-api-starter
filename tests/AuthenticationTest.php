@@ -27,29 +27,26 @@ class AuthenticationTest extends TestCase
     {
         $this->createTestUser();
 
-        $this->authenticate();
-
-        $this->assertResponseOk();
-    }
-
-    public function test_protected_route_with_valid_token()
-    {
-        $this->createTestUser();
-
-        $token = $this->authenticate();
-
-        $this->get('articles', [
-            'Authorization' => 'Bearer ' . $token
+        $this->post('/auth/login', [
+            'email' => $this->testEmail,
+            'password' => $this->testPassword
         ]);
 
         $this->assertResponseOk();
     }
 
-    public function test_protected_route_with_invalid_token()
+    public function test_protected_route_with_authenticated_user()
     {
-        $this->get('articles', [
-            'Authorization' => 'Bearer invalidtoken'
-        ]);
+        $user = $this->createTestUser();
+
+        $this->be($user);
+
+        $this->get('articles')->assertResponseOk();
+    }
+
+    public function test_protected_route_without_authenticated_user()
+    {
+        $this->get('articles');
 
         $this->assertResponseStatus(401);
     }
@@ -63,15 +60,5 @@ class AuthenticationTest extends TestCase
         $user->save();
 
         return $user->save() ? $user : false;
-    }
-
-    private function authenticate()
-    {
-        $this->post('/auth/login', [
-            'email' => $this->testEmail,
-            'password' => $this->testPassword
-        ]);
-
-        return array_get(json_decode($this->response->content(), true), 'token');
     }
 }
