@@ -197,7 +197,7 @@ class PasetoAuthGuard implements Guard
         ];
 
         $token = $this->getTokenBuilder()
-            ->setExpiration(Carbon::now()->subDay($this->getExpireTime()))
+            ->setExpiration(Carbon::now()->addHours($this->getExpireTime()))
             ->setIssuer($this->getIssuer())
             ->setClaims($claims);
 
