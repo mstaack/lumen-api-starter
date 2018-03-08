@@ -4,6 +4,7 @@ namespace App\Extensions\Authentication;
 
 use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -16,6 +17,8 @@ use ParagonIE\Paseto\Parser;
 use ParagonIE\Paseto\Protocol\Version2;
 use ParagonIE\Paseto\ProtocolCollection;
 use ParagonIE\Paseto\Purpose;
+use ParagonIE\Paseto\Rules\IssuedBy;
+use ParagonIE\Paseto\Rules\NotExpired;
 use TypeError;
 
 class PasetoAuthGuard implements Guard
@@ -56,16 +59,19 @@ class PasetoAuthGuard implements Guard
      *
      * @return bool
      * @throws TypeError
-     * @throws \ParagonIE\Paseto\Exception\InvalidVersionException
+     * @throws InvalidVersionException
      * @throws PasetoException
      */
     public function check()
     {
         $parser = Parser::getLocal($this->getSharedKey(), ProtocolCollection::v2());
 
+        $parser->addRule(new NotExpired);
+        $parser->addRule(new IssuedBy($this->getIssuer()));
+
         try {
             $this->token = $parser->parse($this->getTokenFromRequest());
-        } catch (PasetoException $ex) {
+        } catch (PasetoException $e) {
             return false;
         }
 
@@ -77,7 +83,7 @@ class PasetoAuthGuard implements Guard
      *
      * @return bool
      * @throws TypeError
-     * @throws \ParagonIE\Paseto\Exception\InvalidVersionException
+     * @throws InvalidVersionException
      * @throws PasetoException
      */
     public function guest()
@@ -91,11 +97,11 @@ class PasetoAuthGuard implements Guard
      * @param array $credentials
      *
      * @return mixed
-     * @throws TypeError
-     * @throws \Exception
-     * @throws \ParagonIE\Paseto\Exception\InvalidKeyException
-     * @throws \ParagonIE\Paseto\Exception\InvalidPurposeException
+     * @throws Exception
+     * @throws InvalidKeyException
+     * @throws InvalidPurposeException
      * @throws PasetoException
+     * @throws TypeError
      */
     public function attempt(array $credentials = [])
     {
@@ -161,10 +167,10 @@ class PasetoAuthGuard implements Guard
      * @param $user
      * @return string
      * @throws TypeError
-     * @throws \Exception
-     * @throws \ParagonIE\Paseto\Exception\InvalidKeyException
-     * @throws \ParagonIE\Paseto\Exception\InvalidPurposeException
+     * @throws Exception
+     * @throws InvalidKeyException
      * @throws PasetoException
+     * @throws InvalidPurposeException
      */
     private function login($user)
     {
@@ -174,27 +180,22 @@ class PasetoAuthGuard implements Guard
     }
 
     /**
-     * @throws \ParagonIE\Paseto\Exception\InvalidKeyException
-     * @throws \ParagonIE\Paseto\Exception\InvalidPurposeException
+     * @return string
+     * @throws InvalidKeyException
+     * @throws InvalidPurposeException
      * @throws PasetoException
      * @throws TypeError
-     * @throws \Exception
      */
     private function generateTokenForUser()
     {
-        $token = (new Builder)
-            ->setKey($this->getSharedKey())
-            ->setVersion(new Version2)
-            ->setPurpose(Purpose::local())
-            // Set it to expire in one day
-            ->setExpiration(
-                Carbon::now()->addSeconds(env('PASETO_AUTH_EXPIRE_AFTER'))
-            )
-            ->setIssuer(env('PASETO_AUTH_ISSUER'))
-            // Store arbitrary data
-            ->setClaims([
-                'id' => $this->user->id
-            ]);
+        $claims = [
+            'id' => $this->user->id
+        ];
+
+        $token = $this->getTokenBuilder()
+            ->setExpiration(Carbon::now()->subDay($this->getExpireTime()))
+            ->setIssuer($this->getIssuer())
+            ->setClaims($claims);
 
         return (string)$token;
     }
@@ -209,7 +210,7 @@ class PasetoAuthGuard implements Guard
     }
 
     /**
-     * @return mixed
+     * @return string|bool
      */
     private function getTokenFromRequest()
     {
@@ -231,5 +232,36 @@ class PasetoAuthGuard implements Guard
         $this->request = $request;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getIssuer()
+    {
+        return env('PASETO_AUTH_ISSUER');
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getExpireTime()
+    {
+        return env('PASETO_AUTH_EXPIRE_AFTER_HOURS');
+    }
+
+    /**
+     * @return Builder
+     * @throws PasetoException
+     * @throws TypeError
+     * @throws InvalidKeyException
+     * @throws InvalidPurposeException
+     */
+    private function getTokenBuilder()
+    {
+        return (new Builder)
+            ->setKey($this->getSharedKey())
+            ->setVersion(new Version2)
+            ->setPurpose(Purpose::local());
     }
 }
