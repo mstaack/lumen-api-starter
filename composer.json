@@ -41,6 +41,10 @@
       "php artisan ide-helper:meta",
       "php artisan ide-helper:model",
       "php artisan optimize"
+    ],
+    "keys": [
+      "php artisan key:generate",
+      "php artisan auth:generate-paseto-key"
     ]
   },
   "minimum-stability": "dev",
