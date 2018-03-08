@@ -6,7 +6,7 @@
 
 # Installation
 - run `git clone git@github.com:mstaack/lumen-api-starter.git`
-- run composer install` to install dependencies
+- run `composer install` to install dependencies
 - copy `env.example` to `.env`
 - Setup your application & auth keys with `composer keys` & check `.env`file
 - add sqlite database with `touch database/database.sqlite` (You probably dont want to run sqlite in production)
