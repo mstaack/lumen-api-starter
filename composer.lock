@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f9d11600cc75f73badf9d9fd9a8fa07",
+    "content-hash": "9a59a94a1d5de8f10647207d0e98be41",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -161,49 +161,6 @@
             "time": "2018-01-09T20:05:19+00:00"
         },
         {
-            "name": "firebase/php-jwt",
-            "version": "v4.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
-                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Firebase\\JWT\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Neuman Vong",
-                    "email": "neuman+pear@twilio.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Anant Narayanan",
-                    "email": "anant@php.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
-            "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2016-07-18T04:51:16+00:00"
-        },
-        {
             "name": "flipbox/lumen-generator",
             "version": "5.6.1",
             "source": {
@@ -241,42 +198,6 @@
             ],
             "description": "A Lumen Generator You Are Missing",
             "time": "2018-02-13T06:11:59+00:00"
-        },
-        {
-            "name": "gboyegadada/lumen-jwt",
-            "version": "v1.0.73",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gboyegadada/lumen-jwt.git",
-                "reference": "3701e6615e43ec9ba33f69a92eb8dc8afe8a8c62"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gboyegadada/lumen-jwt/zipball/3701e6615e43ec9ba33f69a92eb8dc8afe8a8c62",
-                "reference": "3701e6615e43ec9ba33f69a92eb8dc8afe8a8c62",
-                "shasum": ""
-            },
-            "require": {
-                "firebase/php-jwt": "^4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Yega\\Auth\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Gboyega Dada",
-                    "email": "boyega@gmail.com"
-                }
-            ],
-            "description": "JWT auth guard for Lumen 5.4",
-            "time": "2017-10-24T08:49:28+00:00"
         },
         {
             "name": "illuminate/auth",

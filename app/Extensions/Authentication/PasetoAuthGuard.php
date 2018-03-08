@@ -3,8 +3,7 @@
 namespace App\Extensions\Authentication;
 
 use App\User;
-use DateInterval;
-use DateTime;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -128,11 +127,10 @@ class PasetoAuthGuard implements Guard
      * Get the ID for the currently authenticated user.
      *
      * @return int|null
-     * @throws PasetoException
      */
     public function id()
     {
-        return $this->token->get('id');
+        return $this->user->id;
     }
 
     /**
@@ -143,7 +141,7 @@ class PasetoAuthGuard implements Guard
      */
     public function validate(array $credentials = [])
     {
-        // TODO: Implement validate() method.
+        return $this->provider->validateCredentials($this->user, $credentials);
     }
 
     /**
@@ -190,14 +188,15 @@ class PasetoAuthGuard implements Guard
             ->setPurpose(Purpose::local())
             // Set it to expire in one day
             ->setExpiration(
-                (new DateTime)->add(new DateInterval('P01D'))
+                Carbon::now()->addSeconds(env('PASETO_AUTH_EXPIRE_AFTER'))
             )
+            ->setIssuer(env('PASETO_AUTH_ISSUER'))
             // Store arbitrary data
             ->setClaims([
                 'id' => $this->user->id
             ]);
 
-        return (string)$token; // Converts automatically to a string
+        return (string)$token;
     }
 
     /**
@@ -233,5 +232,4 @@ class PasetoAuthGuard implements Guard
 
         return $this;
     }
-
 }
