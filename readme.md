@@ -1,13 +1,18 @@
-# Lumen 5.6. API Starter with JWT
+# Lumen 5.6. API Starter with Paseto (Better JWT Alternative)
+
+# Notes
+- Comes with make & route command for all your needs ;)
+- Uses better token generation with paseto. Read [Paseto](https://github.com/paragonie/paseto)
 
 # Installation
-- git clone
-- composer install
-- copy `env.example` to `.env` and add app&jwt keys
+- run `git clone git@github.com:mstaack/lumen-api-starter.git`
+- run composer install` to install dependencies
+- copy `env.example` to `.env`
+- Setup your application & auth keys with `composer keys` & check `.env`file
 - add sqlite database with `touch database/database.sqlite` (You probably dont want to run sqlite in production)
 - run migrations & seeders with `artisan migrate --seed`
 - A default user is created during seeding: `demo@demo.com` / `password`
-- To quickly start aserver run `./artisan serve`
+- To quickly start a dev server run `./artisan serve`
 - Also consider running `composer meta` when adding models for better autocompletion
 
 # Routes

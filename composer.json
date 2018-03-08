@@ -13,7 +13,7 @@
     "laravel/lumen-framework": "5.6.*",
     "vlucas/phpdotenv": "~2.2",
     "flipbox/lumen-generator": "^5.6",
-    "gboyegadada/lumen-jwt": "^1.0"
+    "paragonie/paseto": "^0.5.0"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
@@ -41,6 +41,10 @@
       "php artisan ide-helper:meta",
       "php artisan ide-helper:model",
       "php artisan optimize"
+    ],
+    "keys": [
+      "php artisan key:generate",
+      "php artisan auth:generate-paseto-key"
     ]
   },
   "minimum-stability": "dev",
