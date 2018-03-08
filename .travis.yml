@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+branches:
+  only:
+    master
+
+sudo: false
+
+install:
+  - travis_retry composer install --no-interaction --prefer-source
+  - cp .env.example .env
+  - touch database/database.sqlite
+  - composer keys
+  - php artisan migrate
+
+
+script: vendor/bin/phpunit
