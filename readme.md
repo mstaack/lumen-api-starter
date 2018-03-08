@@ -1,8 +1,8 @@
-# Lumen 5.6. API Starter with Paseto (Better JWT Alternative)
+# Lumen 5.6. API Starter with Paseto [![Build Status](https://travis-ci.org/mstaack/lumen-api-starter.svg?branch=master)](https://travis-ci.org/mstaack/lumen-api-starter)
 
 # Notes
 - Comes with make & route command for all your needs ;)
-- Uses better token generation with paseto. Read [Paseto](https://github.com/paragonie/paseto)
+- Uses better jwt token alternative with paseto. Read [Paseto](https://github.com/paragonie/paseto)
 
 # Installation
 - run `git clone git@github.com:mstaack/lumen-api-starter.git`
