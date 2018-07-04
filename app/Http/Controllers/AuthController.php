@@ -32,16 +32,25 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-
         $token = Auth::attempt($credentials);
 
-        if (!$token) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+        if ( $token ) {
+            $user = User::where('email', $credentials['email']);
+            if ( $user->exists() ) {
+                return response([
+                    'status' => 'success',
+                    'refresh_token' => $user->first()->refresh_token
+                ])
+                ->header('Authorization', $token);
+            }
+            else {
+                return response([
+                    'status' => 'error',
+                    'error' => 'invalid.credentials',
+                    'message' => 'Invalid credentials.'
+                ], 400);
+            }
         }
-
-        return response()->json(['token' => $token, 'user' => Auth::user()]);
     }
 
     /**
@@ -73,5 +82,28 @@ class AuthController extends Controller
         $token = Auth::attempt($request->only(['email', 'password']));
 
         return response()->json(['token' => $token, 'user' => $user]);
+    }
+
+    /**
+    * @param Request $request
+    *
+    * @return Response
+    */
+
+    public function refresh(Request $request)
+    {
+        if ( $token = Auth::refresh($request) ) {
+            return response([
+                'status' => 'success'
+            ])
+            ->header('Authorization', $token);
+        }
+        else {
+            return response([
+                'status' => 'error',
+                'error' => 'invalid.refresh_token',
+                'message' => 'Invalid refresh token.'
+            ], 400);
+        }
     }
 }

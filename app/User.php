@@ -29,6 +29,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = [
         'password',
+        'refresh_token',
     ];
 
     public function articles()

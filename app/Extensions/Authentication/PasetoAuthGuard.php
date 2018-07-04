@@ -168,6 +168,38 @@ class PasetoAuthGuard implements Guard
     }
 
     /**
+    * Attempt to refresh the token
+    *
+    * @param  \Illuminate\Http\Request $request
+    *
+    * @return mixed
+    * @throws Exception
+    * @throws InvalidKeyException
+    * @throws InvalidPurposeException
+    * @throws PasetoException
+    * @throws TypeError
+    */
+    public function refresh(Request $request)
+    {
+        $this->setRequest($request);
+        $refresh_token = $this->getTokenFromRequest();
+        try {
+            $this->token = $this->parseToken($refresh_token);
+            $this->user = $this->user();
+            if ($this->user->refresh_token == $refresh_token) {
+                return $this->generateTokenForUser();
+            }
+            else {
+                return false;
+            }
+        } catch (PasetoException $e) {
+            return false;
+        }
+
+
+    }
+
+    /**
      * @param $user
      * @return string
      * @throws TypeError
@@ -179,7 +211,14 @@ class PasetoAuthGuard implements Guard
     private function login($user)
     {
         $this->setUser($user);
+        $refresh_token = $this->user->refresh_token;
 
+        try {
+            $this->parseToken($refresh_token);
+        } catch (PasetoException $e) {
+            $this->user->refresh_token = $this->generateRefreshTokenForUser();
+            $this->user->save();
+        }
         return $this->generateTokenForUser();
     }
 
@@ -197,9 +236,30 @@ class PasetoAuthGuard implements Guard
         ];
 
         $token = $this->getTokenBuilder()
-            ->setExpiration(Carbon::now()->addHours($this->getExpireTime()))
+            ->setExpiration(Carbon::now()->addMinutes($this->getExpireTime()))
             ->setIssuer($this->getIssuer())
             ->setClaims($claims);
+
+        return (string)$token;
+    }
+
+    /**
+    * @return string
+    * @throws InvalidKeyException
+    * @throws InvalidPurposeException
+    * @throws PasetoException
+    * @throws TypeError
+    */
+    private function generateRefreshTokenForUser()
+    {
+        $claims = [
+            'id' => $this->user->id
+        ];
+
+        $token = $this->getTokenBuilder()
+        ->setExpiration(Carbon::now()->addDays($this->getRefreshExpireTime()))
+        ->setIssuer($this->getIssuer())
+        ->setClaims($claims);
 
         return (string)$token;
     }
@@ -255,6 +315,14 @@ class PasetoAuthGuard implements Guard
     }
 
     /**
+    * @return mixed
+    */
+    private function getRefreshExpireTime()
+    {
+        return env('PASETO_REFRESH_EXPIRE_AFTER_DAYS');
+    }
+
+    /**
      * @return Builder
      * @throws PasetoException
      * @throws TypeError
@@ -267,5 +335,21 @@ class PasetoAuthGuard implements Guard
             ->setKey($this->getSharedKey())
             ->setVersion(new Version2)
             ->setPurpose(Purpose::local());
+    }
+
+    /**
+     * @return JsonToken
+     * @throws TypeError
+     * @throws InvalidVersionException
+     * @throws PasetoException
+     */
+    private function parseToken ($token)
+    {
+        $parser = Parser::getLocal($this->getSharedKey(), ProtocolCollection::v2());
+
+        $parser->addRule(new NotExpired);
+        $parser->addRule(new IssuedBy($this->getIssuer()));
+
+        return $parser->parse($token);
     }
 }

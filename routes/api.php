@@ -15,6 +15,10 @@ $router->post('/auth/login', [
     'as' => 'auth.login',
     'uses' => 'AuthController@login',
 ]);
+$router->get('/auth/refresh', [
+    'as' => 'auth.refresh',
+    'uses' => 'AuthController@refresh'
+]);
 
 /* Protected Routes */
 $router->group([
