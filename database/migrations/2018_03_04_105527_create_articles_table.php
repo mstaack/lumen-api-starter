@@ -18,7 +18,7 @@ class CreateArticlesTable extends Migration
             $table->string('title', 255);
             $table->string('text', 255);
             $table->integer('likes')->nullable();
-            $table->integer('user_id')->nullable();
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
