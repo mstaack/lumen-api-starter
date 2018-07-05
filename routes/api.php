@@ -19,6 +19,10 @@ $router->get('/auth/refresh', [
     'as' => 'auth.refresh',
     'uses' => 'AuthController@refresh'
 ]);
+$router->get('/auth/verify/{token}', [
+    'as' => 'auth.verify',
+    'uses' => 'AuthController@verify'
+]);
 
 /* Protected Routes */
 $router->group([

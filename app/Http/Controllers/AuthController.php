@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\VerifyUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyMail;
 
 class AuthController extends Controller
 {
@@ -36,21 +39,18 @@ class AuthController extends Controller
 
         if ( $token ) {
             $user = User::where('email', $credentials['email']);
-            if ( $user->exists() ) {
+            if ( $user->exists() && $user->first()->verified ) {
                 return response([
                     'status' => 'success',
-                    'refresh_token' => $user->first()->refresh_token
+                    'data' => ['refresh_token' => $user->first()->refresh_token]
                 ])
                 ->header('Authorization', $token);
             }
-            else {
-                return response([
-                    'status' => 'error',
-                    'error' => 'invalid.credentials',
-                    'message' => 'Invalid credentials.'
-                ], 400);
-            }
         }
+        return response([
+            'status' => 'invalid.credentials',
+            'message' => 'Invalid credentials.'
+        ], 400);
     }
 
     /**
@@ -61,27 +61,54 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
-            'name' => 'string'
         ]);
 
         $emailInUse = User::where('email', $request->input('email'))->exists();
 
-        if ($emailInUse) {
-            return response()->json(['message' => 'Email already in use!'], 400);
+        if (!$emailInUse) {
+            $user = new User;
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+
+            $verifyUser = VerifyUser::create([
+                'user_id' => $user->id,
+                'token' => str_random(60)
+            ]);
+
+            Mail::to($user->email)->send(new VerifyMail($user));
         }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Check email to verify account'
+        ]);
+    }
 
-        $user = new User;
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
-        $user->name = $request->input('name');
-
-        $user->save();
-
-        $token = Auth::attempt($request->only(['email', 'password']));
-
-        return response()->json(['token' => $token, 'user' => $user]);
+    /**
+    * @param String $token
+    *
+    * @return Response
+    */
+    public function verify($token)
+    {
+        $verifyUser = VerifyUser::where('token', $token)->first();
+        if(isset($verifyUser) ){
+            $verifyUser->user->verified = 1;
+            $verifyUser->user->save();
+            $verifyUser->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'verified'
+            ]);
+        }
+        else {
+            return response()->json([
+                'status' => 'invalid.token',
+                'message' => 'Invalid verification token'
+            ], 400);
+        }
     }
 
     /**
@@ -100,8 +127,7 @@ class AuthController extends Controller
         }
         else {
             return response([
-                'status' => 'error',
-                'error' => 'invalid.refresh_token',
+                'status' => 'invalid.refresh_token',
                 'message' => 'Invalid refresh token.'
             ], 400);
         }
