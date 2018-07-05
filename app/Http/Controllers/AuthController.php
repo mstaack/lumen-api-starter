@@ -35,16 +35,29 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        $token = Auth::attempt($credentials);
-
-        if ( $token ) {
-            $user = User::where('email', $credentials['email']);
-            if ( $user->exists() && $user->first()->verified ) {
+        $user = User::where('email', $credentials['email']);
+        if ( $user->exists() ) {
+            if ( $user->first()->verified ) {
+                $token = Auth::attempt($credentials);
+                    if ( $token ) {
+                        return response([
+                            'status' => 'success',
+                            'data' => ['refresh_token' => $user->first()->refresh_token]
+                        ])
+                        ->header('Authorization', $token);
+                    }
+                    else {
+                        return response([
+                            'status' => 'invalid.credentials',
+                            'message' => 'Invalid credentials.'
+                        ], 400);
+                    }
+            }
+            else {
                 return response([
-                    'status' => 'success',
-                    'data' => ['refresh_token' => $user->first()->refresh_token]
-                ])
-                ->header('Authorization', $token);
+                    'status' => 'unverified.account',
+                    'message' => 'Please verify your email address.'
+                ], 400);
             }
         }
         return response([
