@@ -23,6 +23,14 @@ $router->get('/auth/verify/{token}', [
     'as' => 'auth.verify',
     'uses' => 'AuthController@verify'
 ]);
+$router->post('/auth/password/forgot', [
+    'as' => 'password.forgot',
+    'uses' => 'AuthController@passwordForgot'
+]);
+$router->post('/auth/password/reset/{token}', [
+    'as' => 'password.reset',
+    'uses' => 'AuthController@passwordReset'
+]);
 
 /* Protected Routes */
 $router->group([
