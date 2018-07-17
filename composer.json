@@ -41,7 +41,9 @@
       "php -r \"copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
-      "php vendor/bin/homestead make"
+      "php vendor/bin/homestead make",
+      "composer keys",
+      "composer meta"
     ],
     "meta": [
       "php artisan ide-helper:generate",

@@ -13,12 +13,12 @@
 - run `git clone git@github.com:mstaack/lumen-api-starter.git`
 - run `composer install` to install dependencies
 - copy `env.example` to `.env`
-- Setup your application & auth keys with `composer keys` & check `.env`file
+- Setup your application & auth keys with `composer keys` & check `.env`file (automatically done via composer hook)
 - add sqlite database with `touch database/database.sqlite` (You probably dont want to run sqlite in production)
 - run migrations & seeders with `artisan migrate --seed`
 - A default user is created during seeding: `demo@demo.com` / `password`
 - To quickly start a dev server run `./artisan serve`
-- Also consider running `composer meta` when adding models for better autocompletion
+- Also consider running `composer meta` when adding models for better autocompletion (automatically done via composer hook)
 
 # Routes
 ```

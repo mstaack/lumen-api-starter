@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel Lumen (5.6.1) (Laravel Components 5.6.*) on 2018-03-04 12:16:52.
+ * Generated for Laravel Lumen (5.6.3) (Laravel Components 5.6.*) on 2018-07-18 00:01:42.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -763,7 +763,7 @@ namespace Illuminate\Support\Facades {
          * Set the shared instance of the container.
          *
          * @param \Illuminate\Contracts\Container\Container|null $container
-         * @return static 
+         * @return \Illuminate\Contracts\Container\Container|static 
          * @static 
          */ 
         public static function setInstance($container = null)
@@ -1086,95 +1086,71 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Get the currently authenticated user.
-         *
-         * @return \App\User|null 
-         * @static 
-         */ 
-        public static function user()
-        {
-            return \Yega\Auth\JWTGuard::user();
-        }
-        
-        /**
-         * Return the currently cached user.
-         *
-         * @return \App\User|null 
-         * @static 
-         */ 
-        public static function getUser()
-        {
-            return \Yega\Auth\JWTGuard::getUser();
-        }
-        
-        /**
-         * Set the current user.
-         *
-         * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @return $this 
-         * @static 
-         */ 
-        public static function setUser($user)
-        {
-            return \Yega\Auth\JWTGuard::setUser($user);
-        }
-        
-        /**
-         * Get the token for the current request.
-         *
-         * @return string|object 
-         * @static 
-         */ 
-        public static function getTokenForRequest()
-        {
-            return \Yega\Auth\JWTGuard::getTokenForRequest();
-        }
-        
-        /**
-         * Get the JWT payload for the current request.
-         *
-         * @return object 
-         * @static 
-         */ 
-        public static function getPayloadForRequest()
-        {
-            return \Yega\Auth\JWTGuard::getPayloadForRequest();
-        }
-        
-        /**
-         * Generate new token by ID.
-         *
-         * @param mixed $id
-         * @return string|null 
-         * @static 
-         */ 
-        public static function generateTokenFromUser()
-        {
-            return \Yega\Auth\JWTGuard::generateTokenFromUser();
-        }
-        
-        /**
          * Determine if the current user is authenticated.
          *
          * @return bool 
+         * @throws TypeError
+         * @throws InvalidVersionException
+         * @throws PasetoException
          * @static 
          */ 
         public static function check()
         {
-            return \Yega\Auth\JWTGuard::check();
+            return \App\Extensions\Authentication\PasetoAuthGuard::check();
+        }
+        
+        /**
+         * Determine if the current request is a guest user.
+         *
+         * @return bool 
+         * @throws TypeError
+         * @throws InvalidVersionException
+         * @throws PasetoException
+         * @static 
+         */ 
+        public static function guest()
+        {
+            return \App\Extensions\Authentication\PasetoAuthGuard::guest();
         }
         
         /**
          * Attempt to authenticate the user using the given credentials and return the token.
          *
          * @param array $credentials
-         * @param bool $login
          * @return mixed 
+         * @throws Exception
+         * @throws InvalidKeyException
+         * @throws InvalidPurposeException
+         * @throws PasetoException
+         * @throws TypeError
          * @static 
          */ 
         public static function attempt($credentials = array())
         {
-            return \Yega\Auth\JWTGuard::attempt($credentials);
+            return \App\Extensions\Authentication\PasetoAuthGuard::attempt($credentials);
+        }
+        
+        /**
+         * Get the currently authenticated user.
+         *
+         * @return \App\User|null 
+         * @throws PasetoException
+         * @static 
+         */ 
+        public static function user()
+        {
+            return \App\Extensions\Authentication\PasetoAuthGuard::user();
+        }
+        
+        /**
+         * Get the ID for the currently authenticated user.
+         *
+         * @return int|null 
+         * @static 
+         */ 
+        public static function id()
+        {
+            return \App\Extensions\Authentication\PasetoAuthGuard::id();
         }
         
         /**
@@ -1186,30 +1162,19 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function validate($credentials = array())
         {
-            return \Yega\Auth\JWTGuard::validate($credentials);
+            return \App\Extensions\Authentication\PasetoAuthGuard::validate($credentials);
         }
         
         /**
-         * Create a token for a user.
+         * Set the current user.
          *
-         * @param \Yega\Auth\JWTSubject $user
-         * @return string 
+         * @param \App\Extensions\Authentication\Authenticatable $user
+         * @return $this 
          * @static 
          */ 
-        public static function login($user)
+        public static function setUser($user)
         {
-            return \Yega\Auth\JWTGuard::login($user);
-        }
-        
-        /**
-         * Invalidate token for a user.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function logout()
-        {
-            return \Yega\Auth\JWTGuard::logout();
+            return \App\Extensions\Authentication\PasetoAuthGuard::setUser($user);
         }
         
         /**
@@ -1221,64 +1186,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function setRequest($request)
         {
-            return \Yega\Auth\JWTGuard::setRequest($request);
-        }
-        
-        /**
-         * Determine if the current user is authenticated.
-         *
-         * @return \App\User 
-         * @throws \Illuminate\Auth\AuthenticationException
-         * @static 
-         */ 
-        public static function authenticate()
-        {
-            return \Yega\Auth\JWTGuard::authenticate();
-        }
-        
-        /**
-         * Determine if the current user is a guest.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function guest()
-        {
-            return \Yega\Auth\JWTGuard::guest();
-        }
-        
-        /**
-         * Get the ID for the currently authenticated user.
-         *
-         * @return int|null 
-         * @static 
-         */ 
-        public static function id()
-        {
-            return \Yega\Auth\JWTGuard::id();
-        }
-        
-        /**
-         * Get the user provider used by the guard.
-         *
-         * @return \Illuminate\Contracts\Auth\UserProvider 
-         * @static 
-         */ 
-        public static function getProvider()
-        {
-            return \Yega\Auth\JWTGuard::getProvider();
-        }
-        
-        /**
-         * Set the user provider used by the guard.
-         *
-         * @param \Illuminate\Contracts\Auth\UserProvider $provider
-         * @return void 
-         * @static 
-         */ 
-        public static function setProvider($provider)
-        {
-            \Yega\Auth\JWTGuard::setProvider($provider);
+            return \App\Extensions\Authentication\PasetoAuthGuard::setRequest($request);
         }
          
     }
@@ -2051,6 +1959,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Unset the event dispatcher for this connection.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function unsetEventDispatcher()
+        {
+            //Method inherited from \Illuminate\Database\Connection            
+            \Illuminate\Database\SQLiteConnection::unsetEventDispatcher();
+        }
+        
+        /**
          * Determine if the connection in a "dry run".
          *
          * @return bool 
@@ -2296,7 +2216,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get a cache driver instance.
          *
-         * @param string $driver
+         * @param string|null $driver
          * @return mixed 
          * @static 
          */ 
@@ -2426,7 +2346,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param mixed $value
-         * @param \DateTimeInterface|\DateInterval|float|int $minutes
+         * @param \DateTimeInterface|\DateInterval|float|int|null $minutes
          * @return void 
          * @static 
          */ 
@@ -2441,8 +2361,8 @@ namespace Illuminate\Support\Facades {
          * @param string $key The key of the item to store.
          * @param mixed $value The value of the item to store, must be serializable.
          * @param null|int|\DateInterval $ttl Optional. The TTL value of this item. If no value is sent and
-         *                                     the driver supports TTL then the library may set a default value
-         *                                     for it or let the driver take care of that.
+         *                                      the driver supports TTL then the library may set a default value
+         *                                      for it or let the driver take care of that.
          * @return bool True on success and false on failure.
          * @throws \Psr\SimpleCache\InvalidArgumentException
          *   MUST be thrown if the $key string is not a legal value.
@@ -2471,8 +2391,8 @@ namespace Illuminate\Support\Facades {
          *
          * @param \Psr\SimpleCache\iterable $values A list of key => value pairs for a multiple-set operation.
          * @param null|int|\DateInterval $ttl Optional. The TTL value of this item. If no value is sent and
-         *                                      the driver supports TTL then the library may set a default value
-         *                                      for it or let the driver take care of that.
+         *                                       the driver supports TTL then the library may set a default value
+         *                                       for it or let the driver take care of that.
          * @return bool True on success and false on failure.
          * @throws \Psr\SimpleCache\InvalidArgumentException
          *   MUST be thrown if $values is neither an array nor a Traversable,
@@ -2755,6 +2675,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -4521,6 +4442,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * 
+         *
+         * @internal 
+         * @static 
+         */ 
+        public static function setSessionFactory($factory)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+            return \Illuminate\Http\Request::setSessionFactory($factory);
+        }
+        
+        /**
          * Returns the client IP addresses.
          * 
          * In the returned array the most trusted IP address is first, and the
@@ -4885,7 +4818,7 @@ namespace Illuminate\Support\Facades {
          * Gets the mime type associated with the format.
          *
          * @param string $format The format
-         * @return string The associated mime type (null if not found)
+         * @return string|null The associated mime type (null if not found)
          * @static 
          */ 
         public static function getMimeType($format)
@@ -5496,6 +5429,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Determine if the request contains a non-empty value for any of the given inputs.
+         *
+         * @param string|array $keys
+         * @return bool 
+         * @static 
+         */ 
+        public static function anyFilled($keys)
+        {
+            return \Illuminate\Http\Request::anyFilled($keys);
+        }
+        
+        /**
          * Get the keys for all of the input and files.
          *
          * @return array 
@@ -5660,6 +5605,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
