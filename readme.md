@@ -42,7 +42,7 @@
 
 # Artisan Commands
 ```
-➜  lumen-api-starter git:(form-reqs) ./artisan 
+➜  lumen-api-starter git:(master) ./artisan 
 Laravel Framework Lumen (5.6.4) (Laravel Components 5.6.*)
 
 Usage:
@@ -60,6 +60,7 @@ Options:
 
 Available commands:
   clear-compiled            Remove the compiled class file
+  dump-server               Start the dump server to collect dump information.
   help                      Displays help for a command
   list                      Lists commands
   migrate                   Run the database migrations
