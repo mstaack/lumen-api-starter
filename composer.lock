@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f7c94e8e3a516154fecc0bc19be1da9",
+    "content-hash": "2e7ee5321a99e017d1ab904c88f7b805",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -3315,6 +3315,64 @@
                 }
             ],
             "time": "2016-06-13T19:28:20+00:00"
+        },
+        {
+            "name": "beyondcode/laravel-dump-server",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beyondcode/laravel-dump-server.git",
+                "reference": "0ebb9f15c04958122430382ad0123e039861605c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beyondcode/laravel-dump-server/zipball/0ebb9f15c04958122430382ad0123e039861605c",
+                "reference": "0ebb9f15c04958122430382ad0123e039861605c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "5.6.*",
+                "illuminate/http": "5.6.*",
+                "illuminate/support": "5.6.*",
+                "php": "^7.1",
+                "symfony/var-dumper": "^4.1.1"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BeyondCode\\DumpServer\\DumpServerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BeyondCode\\DumpServer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Pociot",
+                    "email": "marcel@beyondco.de",
+                    "homepage": "https://beyondcode.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Symfony Var-Dump Server for Laravel",
+            "homepage": "https://github.com/beyondcode/laravel-dump-server",
+            "keywords": [
+                "beyondcode",
+                "laravel-dump-server"
+            ],
+            "time": "2018-07-17T07:42:19+00:00"
         },
         {
             "name": "codedungeon/php-cli-colors",

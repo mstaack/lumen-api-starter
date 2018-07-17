@@ -9,6 +9,7 @@
 - [PHPUnit Pretty Result Printer](https://github.com/mikeerickson/phpunit-pretty-result-printer) Nice phpunit results
 - [Collision](https://github.com/nunomaduro/collision) Better Console Error Handling
 - [Lumen Form Requests](https://github.com/pearlkrishn/lumen-request-validate) Abstract Validation & Authorization into classes
+- [laravel Dump Server](https://github.com/beyondcode/laravel-dump-server) Dump data to the artisan server
 
 # Installation
 - run `git clone git@github.com:mstaack/lumen-api-starter.git`
