@@ -8,6 +8,7 @@
 - [Clockwork](https://underground.works/clockwork/) Easier debugging with APIs
 - [PHPUnit Pretty Result Printer](https://github.com/mikeerickson/phpunit-pretty-result-printer) Nice phpunit results
 - [Collision](https://github.com/nunomaduro/collision) Better Console Error Handling
+- [Lumen Form Requests](https://github.com/pearlkrishn/lumen-request-validate) Abstract Validation & Authorization into classes
 
 # Installation
 - run `git clone git@github.com:mstaack/lumen-api-starter.git`
@@ -40,8 +41,8 @@
 
 # Artisan Commands
 ```
-➜  lumen-api-starter git:(master) ✗ ./artisan 
-+Laravel Framework Lumen (5.6.3) (Laravel Components 5.6.*)
+➜  lumen-api-starter git:(form-reqs) ./artisan 
+Laravel Framework Lumen (5.6.4) (Laravel Components 5.6.*)
 
 Usage:
   command [options] [arguments]
@@ -94,6 +95,7 @@ Available commands:
   make:model                Create a new Eloquent model class
   make:policy               Create a new policy class
   make:provider             Create a new service provider class
+  make:request              Create a new form request class
   make:resource             Create a new resource
   make:seeder               Create a new seeder class
   make:test                 Create a new test class
@@ -118,5 +120,4 @@ Available commands:
   route:list                Display all registered routes.
  schedule
   schedule:run              Run the scheduled commands
-
 ```
