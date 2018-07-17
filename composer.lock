@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "334ad6e7925d757ab5ecb8fa64dbd43c",
+    "content-hash": "2f7c94e8e3a516154fecc0bc19be1da9",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2047,6 +2047,53 @@
                 "side-channel resistant"
             ],
             "time": "2018-06-06T17:30:29+00:00"
+        },
+        {
+            "name": "pearl/lumen-request-validate",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pearlkrishn/lumen-request-validate.git",
+                "reference": "150f4f24d166223a201e5c0c05558a8c149c93ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pearlkrishn/lumen-request-validate/zipball/150f4f24d166223a201e5c0c05558a8c149c93ba",
+                "reference": "150f4f24d166223a201e5c0c05558a8c149c93ba",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.6.*",
+                "laravel/lumen-framework": "5.6.*",
+                "php": ">=7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pearl\\RequestValidate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "pearlkrishn",
+                    "email": "pearlkrishn@gmail.com"
+                }
+            ],
+            "description": "Lumen doesn't have form request validator seperatly. This package helps developers to segregate the validation layer from the controller to a separate dedicated class",
+            "keywords": [
+                "form-request",
+                "form-request-validation",
+                "form-validation",
+                "lumen",
+                "lumen-package",
+                "lumen-request-validate",
+                "validation"
+            ],
+            "time": "2018-05-30T09:32:45+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
