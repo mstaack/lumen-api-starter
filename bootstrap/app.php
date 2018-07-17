@@ -79,7 +79,8 @@ $app->routeMiddleware([
 */
 
 $app->register(\App\Providers\AuthenticationProvider::class);
-
+$app->register(Pearl\RequestValidate\RequestServiceProvider::class);
+$app->register(\BeyondCode\DumpServer\DumpServerServiceProvider::class);
 $app->register(\Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Clockwork\Support\Lumen\ClockworkServiceProvider::class);
 

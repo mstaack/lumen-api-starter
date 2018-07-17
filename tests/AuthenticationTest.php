@@ -35,6 +35,17 @@ class AuthenticationTest extends TestCase
         $this->assertResponseOk();
     }
 
+    private function createTestUser($email = null, $password = null, $name = null)
+    {
+        $user = new User;
+        $user->name = $name ?: $this->testName;
+        $user->email = $email ?: $this->testEmail;
+        $user->password = Hash::make($password ?: $this->testPassword);
+        $user->save();
+
+        return $user->save() ? $user : false;
+    }
+
     public function test_protected_route_with_authenticated_user()
     {
         $user = $this->createTestUser();
@@ -51,14 +62,17 @@ class AuthenticationTest extends TestCase
         $this->assertResponseStatus(401);
     }
 
-    private function createTestUser($email = null, $password = null, $name = null)
+    public function test_validation_login()
     {
-        $user = new User;
-        $user->name = $name ?: $this->testName;
-        $user->email = $email ?: $this->testEmail;
-        $user->password = Hash::make($password ?: $this->testPassword);
-        $user->save();
+        $this->post('/auth/login');
 
-        return $user->save() ? $user : false;
+        $this->assertResponseStatus(422);
+    }
+
+    public function test_validation_register()
+    {
+        $this->post('/auth/register');
+
+        $this->assertResponseStatus(422);
     }
 }

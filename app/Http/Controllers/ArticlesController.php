@@ -7,6 +7,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class ArticlesController
+ * @package App\Http\Controllers
+ */
 class ArticlesController extends Controller
 {
     /**
@@ -50,6 +54,7 @@ class ArticlesController extends Controller
     public function update(Request $request, $id)
     {
         $article = Article::find($id);
+
         $article->title = $request->input('title');
         $article->text = $request->input('text');
 

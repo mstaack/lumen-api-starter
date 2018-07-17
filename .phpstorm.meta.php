@@ -3,15 +3,15 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-07-18 00:01:43.
+    * Generated on 2018-07-18 00:11:46.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
     */
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
-        'db' => \Illuminate\Database\DatabaseManager::class,
         'config' => \Illuminate\Config\Repository::class,
+        'db' => \Illuminate\Database\DatabaseManager::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
         'db.connection' => \Illuminate\Database\SQLiteConnection::class,
         'Illuminate\Contracts\Queue\EntityResolver' => \Illuminate\Database\Eloquent\QueueEntityResolver::class,
@@ -95,8 +95,8 @@ namespace PHPSTORM_META {
     ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
-        'db' => \Illuminate\Database\DatabaseManager::class,
         'config' => \Illuminate\Config\Repository::class,
+        'db' => \Illuminate\Database\DatabaseManager::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
         'db.connection' => \Illuminate\Database\SQLiteConnection::class,
         'Illuminate\Contracts\Queue\EntityResolver' => \Illuminate\Database\Eloquent\QueueEntityResolver::class,
@@ -180,8 +180,8 @@ namespace PHPSTORM_META {
     ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
-        'db' => \Illuminate\Database\DatabaseManager::class,
         'config' => \Illuminate\Config\Repository::class,
+        'db' => \Illuminate\Database\DatabaseManager::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
         'db.connection' => \Illuminate\Database\SQLiteConnection::class,
         'Illuminate\Contracts\Queue\EntityResolver' => \Illuminate\Database\Eloquent\QueueEntityResolver::class,
@@ -265,8 +265,8 @@ namespace PHPSTORM_META {
     ]));
     override(\App::make(0), map([
         '' => '@',
-        'db' => \Illuminate\Database\DatabaseManager::class,
         'config' => \Illuminate\Config\Repository::class,
+        'db' => \Illuminate\Database\DatabaseManager::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
         'db.connection' => \Illuminate\Database\SQLiteConnection::class,
         'Illuminate\Contracts\Queue\EntityResolver' => \Illuminate\Database\Eloquent\QueueEntityResolver::class,
@@ -350,8 +350,8 @@ namespace PHPSTORM_META {
     ]));
     override(\App::makeWith(0), map([
         '' => '@',
-        'db' => \Illuminate\Database\DatabaseManager::class,
         'config' => \Illuminate\Config\Repository::class,
+        'db' => \Illuminate\Database\DatabaseManager::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
         'db.connection' => \Illuminate\Database\SQLiteConnection::class,
         'Illuminate\Contracts\Queue\EntityResolver' => \Illuminate\Database\Eloquent\QueueEntityResolver::class,
@@ -435,8 +435,8 @@ namespace PHPSTORM_META {
     ]));
     override(\app(0), map([
         '' => '@',
-        'db' => \Illuminate\Database\DatabaseManager::class,
         'config' => \Illuminate\Config\Repository::class,
+        'db' => \Illuminate\Database\DatabaseManager::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
         'db.connection' => \Illuminate\Database\SQLiteConnection::class,
         'Illuminate\Contracts\Queue\EntityResolver' => \Illuminate\Database\Eloquent\QueueEntityResolver::class,
@@ -520,8 +520,8 @@ namespace PHPSTORM_META {
     ]));
     override(\resolve(0), map([
         '' => '@',
-        'db' => \Illuminate\Database\DatabaseManager::class,
         'config' => \Illuminate\Config\Repository::class,
+        'db' => \Illuminate\Database\DatabaseManager::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
         'db.connection' => \Illuminate\Database\SQLiteConnection::class,
         'Illuminate\Contracts\Queue\EntityResolver' => \Illuminate\Database\Eloquent\QueueEntityResolver::class,

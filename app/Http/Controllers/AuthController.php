@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class AuthController
+ * @package App\Http\Controllers
+ */
 class AuthController extends Controller
 {
     /**
@@ -19,17 +24,12 @@ class AuthController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param LoginRequest $request
      *
      * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $this->validate($request, [
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
         $credentials = $request->only('email', 'password');
 
 
@@ -45,18 +45,12 @@ class AuthController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param RegisterRequest $request
      *
      * @return JsonResponse
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $this->validate($request, [
-            'email' => 'required',
-            'password' => 'required',
-            'name' => 'string'
-        ]);
-
         $emailInUse = User::where('email', $request->input('email'))->exists();
 
         if ($emailInUse) {

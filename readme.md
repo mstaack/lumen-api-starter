@@ -8,6 +8,8 @@
 - [Clockwork](https://underground.works/clockwork/) Easier debugging with APIs
 - [PHPUnit Pretty Result Printer](https://github.com/mikeerickson/phpunit-pretty-result-printer) Nice phpunit results
 - [Collision](https://github.com/nunomaduro/collision) Better Console Error Handling
+- [Lumen Form Requests](https://github.com/pearlkrishn/lumen-request-validate) Abstract Validation & Authorization into classes
+- [Laravel Dump Server](https://github.com/beyondcode/laravel-dump-server) Dump data to the artisan server
 
 # Installation
 - run `git clone git@github.com:mstaack/lumen-api-starter.git`
@@ -40,8 +42,8 @@
 
 # Artisan Commands
 ```
-➜  lumen-api-starter git:(master) ✗ ./artisan 
-+Laravel Framework Lumen (5.6.3) (Laravel Components 5.6.*)
+➜  lumen-api-starter git:(master) ./artisan 
+Laravel Framework Lumen (5.6.4) (Laravel Components 5.6.*)
 
 Usage:
   command [options] [arguments]
@@ -58,6 +60,7 @@ Options:
 
 Available commands:
   clear-compiled            Remove the compiled class file
+  dump-server               Start the dump server to collect dump information.
   help                      Displays help for a command
   list                      Lists commands
   migrate                   Run the database migrations
@@ -94,6 +97,7 @@ Available commands:
   make:model                Create a new Eloquent model class
   make:policy               Create a new policy class
   make:provider             Create a new service provider class
+  make:request              Create a new form request class
   make:resource             Create a new resource
   make:seeder               Create a new seeder class
   make:test                 Create a new test class
@@ -118,5 +122,4 @@ Available commands:
   route:list                Display all registered routes.
  schedule
   schedule:run              Run the scheduled commands
-
 ```

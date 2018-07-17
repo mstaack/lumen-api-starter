@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel Lumen (5.6.3) (Laravel Components 5.6.*) on 2018-07-18 00:01:42.
+ * Generated for Laravel Lumen (5.6.4) (Laravel Components 5.6.*) on 2018-07-18 00:11:45.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -274,6 +274,17 @@ namespace Illuminate\Support\Facades {
         public static function getNamespace()
         {
             return \Laravel\Lumen\Application::getNamespace();
+        }
+        
+        /**
+         * Flush the container of all bindings and resolved instances.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flush()
+        {
+            \Laravel\Lumen\Application::flush();
         }
         
         /**
@@ -733,18 +744,6 @@ namespace Illuminate\Support\Facades {
         {
             //Method inherited from \Illuminate\Container\Container            
             \Laravel\Lumen\Application::forgetInstances();
-        }
-        
-        /**
-         * Flush the container of all bindings and resolved instances.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function flush()
-        {
-            //Method inherited from \Illuminate\Container\Container            
-            \Laravel\Lumen\Application::flush();
         }
         
         /**
@@ -2813,7 +2812,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param mixed $payload
          * @param bool $unserialize
-         * @return string 
+         * @return mixed 
          * @throws \Illuminate\Contracts\Encryption\DecryptException
          * @static 
          */ 
@@ -3119,6 +3118,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $driver
          * @return mixed 
+         * @throws \InvalidArgumentException
          * @static 
          */ 
         public static function driver($driver = null)
@@ -3940,6 +3940,21 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * This method belongs to Symfony HttpFoundation and is not usually needed when using Laravel.
+         * 
+         * Instead, you may use the "input" method.
+         *
+         * @param string $key
+         * @param mixed $default
+         * @return mixed 
+         * @static 
+         */ 
+        public static function get($key, $default = null)
+        {
+            return \Illuminate\Http\Request::get($key, $default);
+        }
+        
+        /**
          * Get the JSON payload for the request.
          *
          * @param string $key
@@ -4378,26 +4393,6 @@ namespace Illuminate\Support\Facades {
         {
             //Method inherited from \Symfony\Component\HttpFoundation\Request            
             return \Illuminate\Http\Request::getHttpMethodParameterOverride();
-        }
-        
-        /**
-         * Gets a "parameter" value from any bag.
-         * 
-         * This method is mainly useful for libraries that want to provide some flexibility. If you don't need the
-         * flexibility in controllers, it is better to explicitly get request parameters from the appropriate
-         * public property instead (attributes, query, request).
-         * 
-         * Order of precedence: PATH (routing placeholders or custom attributes), GET, BODY
-         *
-         * @param string $key The key
-         * @param mixed $default The default value if the parameter key does not exist
-         * @return mixed 
-         * @static 
-         */ 
-        public static function get($key, $default = null)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request            
-            return \Illuminate\Http\Request::get($key, $default);
         }
         
         /**
@@ -5407,7 +5402,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if the request contains any of the given inputs.
          *
-         * @param string|array $key
+         * @param string|array $keys
          * @return bool 
          * @static 
          */ 
@@ -5638,6 +5633,17 @@ namespace Illuminate\Support\Facades {
         public static function dropAllTables()
         {
             \Illuminate\Database\Schema\SQLiteBuilder::dropAllTables();
+        }
+        
+        /**
+         * Drop all views from the database.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function dropAllViews()
+        {
+            \Illuminate\Database\Schema\SQLiteBuilder::dropAllViews();
         }
         
         /**
