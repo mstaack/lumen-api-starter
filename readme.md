@@ -1,4 +1,4 @@
-# Lumen 5.6. API Starter with Paseto [![Build Status](https://travis-ci.org/mstaack/lumen-api-starter.svg?branch=master)](https://travis-ci.org/mstaack/lumen-api-starter)
+# Lumen 5.6. API Starter with Paseto[![Build Status](https://travis-ci.org/mstaack/lumen-api-starter.svg?branch=master)](https://travis-ci.org/mstaack/lumen-api-starter)
 
 # Notes
 - Comes with make & route command for all your needs ;)
@@ -20,23 +20,22 @@
 - A default user is created during seeding: `demo@demo.com` / `password`
 - To quickly start a dev server run `./artisan serve` (or via `homestead.test` for the vm)
 - Also consider running `composer meta` when adding models for better autocompletion (automatically done via composer hook)
+- Run included tests with `phpunit` within vagrant's code directory
 
 # Routes
 ```
-➜  lumen-api-starter git:(master) ✗ ./artisan route:list
-+--------+----------------+-----------------+-----------------------------------------+----------+------------+
-| Verb   | Path           | NamedRoute      | Controller                              | Action   | Middleware |
-+--------+----------------+-----------------+-----------------------------------------+----------+------------+
-| GET    | /              |                 | None                                    | Closure  |            |
-| POST   | /auth/register | auth.register   | App\Http\Controllers\AuthController     | register |            |
-| POST   | /auth/login    | auth.login      | App\Http\Controllers\AuthController     | login    |            |
-| GET    | /auth/user     | auth.user       | App\Http\Controllers\AuthController     | getUser  | auth       |
-| GET    | /articles      | articles.index  | App\Http\Controllers\ArticlesController | index    | auth       |
-| GET    | /articles/{id} | articles.find   | App\Http\Controllers\ArticlesController | find     | auth       |
-| POST   | /articles      | articles.create | App\Http\Controllers\ArticlesController | create   | auth       |
-| PUT    | /articles/{id} | articles.update | App\Http\Controllers\ArticlesController | update   | auth       |
-| DELETE | /articles/{id} | articles.delete | App\Http\Controllers\ArticlesController | delete   | auth       |
-+--------+----------------+-----------------+-----------------------------------------+----------+------------+
+vagrant@lumen-api-starter:~/code$ ./artisan route:list
++------+--------------------------------+-----------------------+-------------------------------------+-----------------+------------+
+| Verb | Path                           | NamedRoute            | Controller                          | Action          | Middleware |
++------+--------------------------------+-----------------------+-------------------------------------+-----------------+------------+
+| GET  | /                              |                       | None                                | Closure         |            |
+| POST | /auth/register                 | auth.register         | App\Http\Controllers\AuthController | register        |            |
+| POST | /auth/login                    | auth.login            | App\Http\Controllers\AuthController | login           |            |
+| GET  | /auth/verify/{token}           | auth.verify           | App\Http\Controllers\AuthController | verify          |            |
+| POST | /auth/password/forgot          | auth.password.forgot  | App\Http\Controllers\AuthController | forgotPassword  |            |
+| POST | /auth/password/recover/{token} | auth.password.recover | App\Http\Controllers\AuthController | recoverPassword |            |
+| GET  | /auth/user                     | auth.user             | App\Http\Controllers\AuthController | getUser         | auth       |
++------+--------------------------------+-----------------------+-------------------------------------+-----------------+------------+
 ```
 
 # Artisan Commands
