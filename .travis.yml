@@ -15,7 +15,8 @@ cache:
         - $HOME/.composer/cache
 
 before_install:
-  - mysql -e 'CREATE DATABASE homestead;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS homestead DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;'
+
 
 install:
   - travis_retry composer install --no-interaction --prefer-source
