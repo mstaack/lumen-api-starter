@@ -29,7 +29,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = [
         'password',
+        'refresh_token',
     ];
+
+    /**
+     * @return VerifyUser
+     */
+    public function verifyUser()
+    {
+        return $this->hasOne('App\VerifyUser');
+    }
 
     public function articles()
     {

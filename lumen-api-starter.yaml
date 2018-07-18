@@ -1,0 +1,208 @@
+openapi: "3.0.0"
+info:
+  version: 0.0.1
+  title: lumen-api-starter
+  license:
+    name: MIT
+paths:
+  /auth/register:
+    post:
+      summary: Register new user
+      operationId: registerUser
+      tags:
+        - user
+      requestBody:
+        description: New user credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonResponse"
+        '422':
+          description: Unprocessable Entity
+        default:
+          description: Unexpected error
+  /auth/login:
+    post:
+      summary: Login user
+      operationId: loginUser
+      tags:
+        - user
+      requestBody:
+        description: Login credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Login succesful, token and refresh token supplied
+          headers:
+            Authorization:
+              schema:
+                type: string
+              description: Authorization token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonResponse"
+        '400':
+          description: Bad request, invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonResponse"
+        default:
+          description: Unexpected error
+  /auth/verify/{token}:
+    get:
+      summary: Verify new user
+      operationId: verifyUser
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+          description: Verification token
+      responses:
+        '200':
+          description: User verified succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonResponse"
+        '400':
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonResponse"
+  /auth/refresh:
+    get:
+      summary: Refresh the authorization token using the refresh refresh
+      operationId: refreshToken
+      tags:
+        - user
+      parameters:
+        - in: header
+          name: Authorization
+          description: Refresh token
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Receive new authorization token
+          headers:
+            Authorization:
+              schema:
+                type: string
+              description: Authorization token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonResponse"
+        '400':
+          description: Invalid refresh token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonResponse"
+  /auth/password/forgot:
+    post:
+      summary: Request to change the password of a user
+      operationId: passwordForgot
+      tags:
+        - user
+      requestBody:
+        description: Email address
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+      responses:
+        '200':
+          description: Email with link to reset password has been sent if email is registered
+  /auth/password/reset/{token}:
+    post:
+      summary: Set a new password for the user that is associated with the provided token
+      operationId: passwordReset
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+          description: Password reset token
+      requestBody:
+        description: New password
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Password'
+      responses:
+        '200':
+          description: Password has been changed
+        '422':
+          description: Password does not meet requirements
+        '400':
+          description: Invalid token
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    User:
+      required:
+        - email
+        - password
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+          minLength: 9
+    Email:
+      required:
+        - email
+      properties:
+        email:
+          type: string
+    Password:
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          minLength: 9
+    JsonResponse:
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        data:
+          type: object

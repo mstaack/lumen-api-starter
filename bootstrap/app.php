@@ -27,6 +27,8 @@ $app->withFacades();
 
 $app->withEloquent();
 
+$app->configure('mail');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -89,6 +91,9 @@ if ($app->environment() !== 'production') {
 }
 
 // $app->register(App\Providers\AppServiceProvider::class);
+
+$app->register(\Illuminate\Mail\MailServiceProvider::class);
+
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
