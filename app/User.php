@@ -32,6 +32,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'refresh_token',
     ];
 
+    /**
+     * @return VerifyUser
+     */
     public function verifyUser()
     {
         return $this->hasOne('App\VerifyUser');

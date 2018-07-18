@@ -182,21 +182,18 @@ class PasetoAuthGuard implements Guard
     public function refresh(Request $request)
     {
         $this->setRequest($request);
-        $refresh_token = $this->getTokenFromRequest();
+        $refreshToken = $this->getTokenFromRequest();
         try {
-            $this->token = $this->parseToken($refresh_token);
+            $this->token = $this->parseToken($refreshToken);
             $this->user = $this->user();
-            if ($this->user->refresh_token == $refresh_token) {
+            if ($this->user->refresh_token === $refreshToken) {
                 return $this->generateTokenForUser();
-            }
-            else {
+            } else {
                 return false;
             }
         } catch (PasetoException $e) {
             return false;
         }
-
-
     }
 
     /**
@@ -211,10 +208,10 @@ class PasetoAuthGuard implements Guard
     private function login($user)
     {
         $this->setUser($user);
-        $refresh_token = $this->user->refresh_token;
+        $refreshToken = $this->user->refresh_token;
 
         try {
-            $this->parseToken($refresh_token);
+            $this->parseToken($refreshToken);
         } catch (PasetoException $e) {
             $this->user->refresh_token = $this->generateRefreshTokenForUser();
             $this->user->save();
@@ -343,7 +340,7 @@ class PasetoAuthGuard implements Guard
      * @throws InvalidVersionException
      * @throws PasetoException
      */
-    private function parseToken ($token)
+    private function parseToken($token)
     {
         $parser = Parser::getLocal($this->getSharedKey(), ProtocolCollection::v2());
 

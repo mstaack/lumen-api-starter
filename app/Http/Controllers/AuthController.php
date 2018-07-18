@@ -16,18 +16,18 @@ use App\Mail\PasswordResetMail;
 class AuthController extends Controller
 {
     /**
-     * @return JsonResponse
-     */
+    * @return JsonResponse
+    */
     public function getUser()
     {
         return response()->json(Auth::user());
     }
 
     /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
+    * @param Request $request
+    *
+    * @return JsonResponse
+    */
     public function login(Request $request)
     {
         $this->validate($request, [
@@ -38,24 +38,22 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         $user = User::where('email', $credentials['email']);
-        if ( $user->exists() ) {
-            if ( $user->first()->verified ) {
+        if ($user->exists()) {
+            if ($user->first()->verified) {
                 $token = Auth::attempt($credentials);
-                    if ( $token ) {
-                        return response([
-                            'status' => 'success',
-                            'data' => ['refresh_token' => $user->first()->refresh_token]
-                        ])
-                        ->header('Authorization', $token);
-                    }
-                    else {
-                        return response([
-                            'status' => 'invalid.credentials',
-                            'message' => 'Invalid credentials.'
-                        ], 400);
-                    }
-            }
-            else {
+                if ($token) {
+                    return response([
+                        'status' => 'success',
+                        'data' => ['refresh_token' => $user->first()->refresh_token]
+                    ])
+                    ->header('Authorization', $token);
+                } else {
+                    return response([
+                        'status' => 'invalid.credentials',
+                        'message' => 'Invalid credentials.'
+                    ], 400);
+                }
+            } else {
                 return response([
                     'status' => 'unverified.account',
                     'message' => 'Please verify your email address.'
@@ -69,10 +67,10 @@ class AuthController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
+    * @param Request $request
+    *
+    * @return JsonResponse
+    */
     public function register(Request $request)
     {
         $this->validate($request, [
@@ -109,7 +107,7 @@ class AuthController extends Controller
     public function verify($token)
     {
         $verifyUser = VerifyUser::where('token', $token)->first();
-        if(isset($verifyUser) ){
+        if ($verifyUser) {
             $verifyUser->user->verified = 1;
             $verifyUser->user->save();
             $verifyUser->delete();
@@ -118,12 +116,10 @@ class AuthController extends Controller
                 'message' => 'verified'
             ]);
         }
-        else {
-            return response()->json([
-                'status' => 'invalid.token',
-                'message' => 'Invalid verification token'
-            ], 400);
-        }
+        return response()->json([
+            'status' => 'invalid.token',
+            'message' => 'Invalid verification token'
+        ], 400);
     }
 
     /**
@@ -131,21 +127,18 @@ class AuthController extends Controller
     *
     * @return Response
     */
-
     public function refresh(Request $request)
     {
-        if ( $token = Auth::refresh($request) ) {
+        if ($token = Auth::refresh($request)) {
             return response([
                 'status' => 'success'
             ])
             ->header('Authorization', $token);
         }
-        else {
-            return response([
-                'status' => 'invalid.refresh_token',
-                'message' => 'Invalid refresh token.'
-            ], 400);
-        }
+        return response([
+            'status' => 'invalid.refresh_token',
+            'message' => 'Invalid refresh token.'
+        ], 400);
     }
 
     /**
@@ -187,7 +180,7 @@ class AuthController extends Controller
             'password' => 'required|min:9',
         ]);
         $passwordReset = PasswordReset::where('token', $token)->first();
-        if(isset($passwordReset)) {
+        if (isset($passwordReset)) {
             $user = User::where('email', $passwordReset->email)->first();
             $user->password = Hash::make($request->input('password'));
             $user->refresh_token = '';
@@ -197,8 +190,7 @@ class AuthController extends Controller
                 'status' => 'success',
                 'message' => 'Password has been changed'
             ]);
-        }
-        else {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'error' => 'wrong.token',
