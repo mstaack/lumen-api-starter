@@ -16,7 +16,6 @@ before_install:
 install:
   - travis_retry composer install --no-interaction --prefer-source
   - cp .env.travis .env
-  - composer keys
   - php artisan migrate
 
 
