@@ -5,10 +5,6 @@ use Laravel\Lumen\Routing\Router;
 
 /* Public Routes */
 $router->get('/', function () {
-
-    return \App\User::all();
-
-
     return response()->json(['message' => 'Welcome to Lumen API Starter']);
 });
 
@@ -27,11 +23,6 @@ $router->group(['prefix' => 'auth', 'as' => 'auth'], function (Router $router) {
     $router->get('/verify/{token}', [
         'as' => 'verify',
         'uses' => 'AuthController@verify'
-    ]);
-
-    $router->get('/refresh', [
-        'as' => 'refresh',
-        'uses' => 'AuthController@refresh'
     ]);
 
     /* Password Reset */
