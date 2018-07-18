@@ -5,3 +5,5 @@ Homestead.yaml
 .env
 /database/database.sqlite
 /.vagrant/
+/.phpstorm.meta.php
+/_ide_helper.php
