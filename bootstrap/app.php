@@ -29,6 +29,16 @@ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
+| Register Configs
+|--------------------------------------------------------------------------
+|
+| Lumen uses a simpler way to load config variables.
+|
+*/
+$app->configure('mail');
+
+/*
+|--------------------------------------------------------------------------
 | Register Container Bindings
 |--------------------------------------------------------------------------
 |
@@ -83,6 +93,7 @@ $app->register(Pearl\RequestValidate\RequestServiceProvider::class);
 $app->register(\BeyondCode\DumpServer\DumpServerServiceProvider::class);
 $app->register(\Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Clockwork\Support\Lumen\ClockworkServiceProvider::class);
+$app->register(\Illuminate\Mail\MailServiceProvider::class);
 
 if ($app->environment() !== 'production') {
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

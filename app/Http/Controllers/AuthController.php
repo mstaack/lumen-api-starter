@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RecoverPasswordRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Mail\PasswordReset;
+use App\Mail\Welcome;
 use App\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class AuthController
@@ -32,7 +38,6 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-
         $token = Auth::attempt($credentials);
 
         if (!$token) {
@@ -41,7 +46,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        return response()->json(['token' => $token, 'user' => Auth::user()]);
+        return response()->json(['user' => Auth::user(), 'token' => $token]);
     }
 
     /**
@@ -51,21 +56,60 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $emailInUse = User::where('email', $request->input('email'))->exists();
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $name = $request->input('name');
 
-        if ($emailInUse) {
-            return response()->json(['message' => 'Email already in use!'], 400);
+        $user = User::createFromValues($name, $email, $password);
+
+        Mail::to($user)->send(new Welcome($user));
+
+        return response()->json(['message' => 'Account created. Please verify via email.']);
+    }
+
+    /**
+     * @param String $token
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function verify($token)
+    {
+        $user = User::verifyByToken($token);
+
+        if (!$user) {
+            return response()->json(['message' => 'Invalid verification token'], 400);
         }
 
-        $user = new User;
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
-        $user->name = $request->input('name');
+        return response()->json(['message' => 'Account has been verified']);
+    }
 
-        $user->save();
+    /**
+     * @param Request $request
+     * @throws ValidationException
+     */
+    public function forgotPassword(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|exists:users,email'
+        ]);
 
-        $token = Auth::attempt($request->only(['email', 'password']));
+        $user = User::byEmail($request->input('email'));
 
-        return response()->json(['token' => $token, 'user' => $user]);
+        Mail::to($user)->send(new PasswordReset($user));
+    }
+
+    /**
+     * @param Request $request
+     * @param $token
+     * @throws ValidationException
+     */
+    public function recoverPassword(Request $request, $token)
+    {
+        $this->validate($request, [
+            'password' => 'required|min:8',
+        ]);
+
+        User::newPasswordByResetToken($token, $request->input('password'));
     }
 }

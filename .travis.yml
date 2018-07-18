@@ -1,5 +1,7 @@
 language: php
 
+dist: trusty
+
 php:
   - 7.1
   - 7.2
@@ -8,12 +10,26 @@ branches:
   only:
     master
 
-sudo: false
+sudo: true
+
+cache:
+  directories:
+      - $HOME/.composer/cache
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS homestead DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;'
 
 install:
   - travis_retry composer install --no-interaction --prefer-source
-  - cp .env.example .env
-  - touch database/database.sqlite
+  - cp .env.travis .env
   - composer keys
   - php artisan migrate
 
