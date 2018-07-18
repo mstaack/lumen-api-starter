@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Class AuthController
@@ -32,7 +32,6 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-
         $token = Auth::attempt($credentials);
 
         if (!$token) {
@@ -41,7 +40,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        return response()->json(['token' => $token, 'user' => Auth::user()]);
+        return response()->json(['user' => Auth::user(), 'token' => $token]);
     }
 
     /**
@@ -51,21 +50,31 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $emailInUse = User::where('email', $request->input('email'))->exists();
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $name = $request->input('name');
 
-        if ($emailInUse) {
-            return response()->json(['message' => 'Email already in use!'], 400);
+        $user = User::createFromValues($name, $email, $password);
+
+        $token = Auth::attempt(compact('email', 'password'));
+
+        return response()->json(['user' => $user, 'token' => $token]);
+    }
+
+    /**
+     * @param String $token
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function verify($token)
+    {
+        $user = User::verifyToken($token);
+
+        if (!$user) {
+            return response()->json(['message' => 'Invalid verification token'], 400);
         }
 
-        $user = new User;
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
-        $user->name = $request->input('name');
-
-        $user->save();
-
-        $token = Auth::attempt($request->only(['email', 'password']));
-
-        return response()->json(['token' => $token, 'user' => $user]);
+        return response()->json(['message' => 'Account has been verified']);
     }
 }

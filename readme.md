@@ -12,14 +12,13 @@
 - [Laravel Dump Server](https://github.com/beyondcode/laravel-dump-server) Dump data to the artisan server
 
 # Installation
-- run `git clone git@github.com:mstaack/lumen-api-starter.git`
-- run `composer install` to install dependencies
+- run `git clone git@github.com:mstaack/lumen-api-starter.git` 
+- run `composer install` to install dependencies (consider using homestead via `vagrant up`)
 - copy `env.example` to `.env`
 - Setup your application & auth keys with `composer keys` & check `.env`file (automatically done via composer hook)
-- add sqlite database with `touch database/database.sqlite` (You probably dont want to run sqlite in production)
-- run migrations & seeders with `artisan migrate --seed`
+- run migrations & seeders with `artisan migrate --seed` (within your vm using `vagrant ssh`)
 - A default user is created during seeding: `demo@demo.com` / `password`
-- To quickly start a dev server run `./artisan serve`
+- To quickly start a dev server run `./artisan serve` (or via `homestead.test` for the vm)
 - Also consider running `composer meta` when adding models for better autocompletion (automatically done via composer hook)
 
 # Routes

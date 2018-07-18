@@ -15,7 +15,8 @@
     "flipbox/lumen-generator": "^5.6",
     "paragonie/paseto": "^0.5.0",
     "itsgoingd/clockwork": "^2.2",
-    "pearl/lumen-request-validate": "^1.0"
+    "pearl/lumen-request-validate": "^1.0",
+    "illuminate/mail": "^5.6"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
