@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RecoverPasswordRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Mail\PasswordReset;
 use App\Mail\Welcome;
 use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class AuthController
@@ -78,5 +82,34 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'Account has been verified']);
+    }
+
+    /**
+     * @param Request $request
+     * @throws ValidationException
+     */
+    public function forgotPassword(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|exists:users,email'
+        ]);
+
+        $user = User::byEmail($request->input('email'));
+
+        Mail::to($user)->send(new PasswordReset($user));
+    }
+
+    /**
+     * @param Request $request
+     * @param $token
+     * @throws ValidationException
+     */
+    public function recoverPassword(Request $request, $token)
+    {
+        $this->validate($request, [
+            'password' => 'required|min:8',
+        ]);
+
+        User::newPasswordByResetToken($token, $request->input('password'));
     }
 }

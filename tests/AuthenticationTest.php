@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class AuthenticationTest extends TestCase
@@ -59,10 +62,7 @@ class AuthenticationTest extends TestCase
 
     public function test_activation_process()
     {
-        $user = $this->createTestUser($verified = false);
-
-        $token = $user->verification_token;
-
+        $token = $this->createTestUser($verified = false)->verification_token;
 
         $this->seeInDatabase('users', ['verification_token' => $token]);
 
@@ -71,11 +71,21 @@ class AuthenticationTest extends TestCase
         $this->notSeeInDatabase('users', ['verification_token' => $token]);
     }
 
-    public function test_validation_login()
+    public function test_password_forgotten_process()
     {
-        $this->post('/auth/login');
+        $user = $this->createTestUser($verified = true);
+        $newPassword = Str::random(8);
 
-        $this->assertValidationFailedResponse();
+        //request
+        $this->post('auth/password/forgot', ['email' => $user->email])->assertResponseOk();
+
+        //get token "from" mail
+        $token = DB::table('password_resets')->where('email', $user->email)->first()->token;
+
+        //change
+        $this->post("auth/password/recover/$token", ['password' => $newPassword])->assertResponseOk();
+
+        $this->assertNotFalse(Auth::attempt(['email' => $user->email, 'password' => $newPassword]));
     }
 
     public function test_validation_register()

@@ -37,11 +37,11 @@ $router->group(['prefix' => 'auth', 'as' => 'auth'], function (Router $router) {
     /* Password Reset */
     $router->post('/password/forgot', [
         'as' => 'password.forgot',
-        'uses' => 'AuthController@passwordForgot'
+        'uses' => 'AuthController@forgotPassword'
     ]);
-    $router->post('/password/reset/{token}', [
-        'as' => 'password.reset',
-        'uses' => 'AuthController@passwordReset'
+    $router->post('/password/recover/{token}', [
+        'as' => 'password.recover',
+        'uses' => 'AuthController@recoverPassword'
     ]);
 
     /* Protected User Endpoint */
