@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\User;
 use App\VerifyUser;
 use App\PasswordReset;
@@ -13,28 +15,27 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyMail;
 use App\Mail\PasswordResetMail;
 
+/**
+ * Class AuthController
+ * @package App\Http\Controllers
+ */
 class AuthController extends Controller
 {
     /**
-    * @return JsonResponse
-    */
+     * @return JsonResponse
+     */
     public function getUser()
     {
         return response()->json(Auth::user());
     }
 
     /**
-    * @param Request $request
-    *
-    * @return JsonResponse
-    */
-    public function login(Request $request)
+     * @param LoginRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function login(LoginRequest $request)
     {
-        $this->validate($request, [
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
         $credentials = $request->only('email', 'password');
 
         $user = User::where('email', $credentials['email']);
@@ -67,17 +68,12 @@ class AuthController extends Controller
     }
 
     /**
-    * @param Request $request
-    *
-    * @return JsonResponse
-    */
-    public function register(Request $request)
+     * @param RegisterRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function register(RegisterRequest $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required|min:9',
-        ]);
-
         $emailInUse = User::where('email', $request->input('email'))->exists();
 
         if (!$emailInUse) {
