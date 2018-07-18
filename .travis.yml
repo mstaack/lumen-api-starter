@@ -10,10 +10,12 @@ branches:
 
 sudo: false
 
+before_install:
+  - mysql -e 'CREATE DATABASE homestead;'
+
 install:
   - travis_retry composer install --no-interaction --prefer-source
-  - cp .env.example .env
-  - touch database/database.sqlite
+  - cp .env.travis .env
   - composer keys
   - php artisan migrate
 
