@@ -6,9 +6,8 @@ use Laravel\Lumen\Routing\Router;
 /* Public Routes */
 $router->get('/', function () {
 
-//    return \App\User::all();
+    return \App\User::all();
 
-    \Illuminate\Support\Facades\Mail::to(\App\User::first())->send(new \App\Mail\Welcome(\App\User::first()));
 
     return response()->json(['message' => 'Welcome to Lumen API Starter']);
 });

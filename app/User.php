@@ -31,37 +31,37 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = [
         'password',
-        'verified',
-        'verification_token'
+//        'verified',
+//        'verification_token'
     ];
 
     /**
-     * Create standard user
+     * Create a user
      *
      * @param $name
      * @param $email
      * @param $password
-     * @return User
+     * @return User|bool
      */
     public static function createFromValues($name, $email, $password)
     {
-        $user = (new static)->create([
-            'name' => $name,
-            'email' => $email,
-            'password' => Hash::make($password),
-            'verification_token' => Str::random(64)
-        ]);
+        $user = new static;
 
-        return $user;
+        $user->name = $name;
+        $user->email = $email;
+        $user->password = Hash::make($password);
+        $user->verification_token = Str::random(64);
+
+        return $user->save() ? $user : false;
     }
 
     /**
-     * Verify a token
+     * Verify by token
      *
      * @param $token
      * @return false|User
      */
-    public static function verifyToken($token)
+    public static function verifyByToken($token)
     {
         $user = (new static)->where(['verification_token' => $token, 'verified' => 0])->first();
 
@@ -69,11 +69,21 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             return false;
         }
 
-        $user->verification_token = '';
-        $user->verified = 1;
-
-        $user->save();
+        $user->verify();
 
         return $user;
+    }
+
+    /**
+     * Verifiy a user
+     *
+     * @return bool
+     */
+    public function verify()
+    {
+        $this->verification_token = null;
+        $this->verified = 1;
+
+        return $this->save();
     }
 }

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Mail\Welcome;
 use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class AuthController
@@ -56,9 +58,9 @@ class AuthController extends Controller
 
         $user = User::createFromValues($name, $email, $password);
 
-        $token = Auth::attempt(compact('email', 'password'));
+        Mail::to($user)->send(new Welcome($user));
 
-        return response()->json(['user' => $user, 'token' => $token]);
+        return response()->json(['message' => 'Account created. Please verify via email.']);
     }
 
     /**
@@ -69,7 +71,7 @@ class AuthController extends Controller
      */
     public function verify($token)
     {
-        $user = User::verifyToken($token);
+        $user = User::verifyByToken($token);
 
         if (!$user) {
             return response()->json(['message' => 'Invalid verification token'], 400);

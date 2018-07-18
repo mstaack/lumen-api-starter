@@ -55,6 +55,23 @@ class PasetoAuthGuard implements Guard
     }
 
     /**
+     * Determine if the current request is a guest user.
+     *
+     * @return bool
+     * @throws TypeError
+     * @throws InvalidVersionException
+     * @throws PasetoException
+     */
+    public function guest()
+    {
+        if ($this->user !== null) {
+            return false;
+        }
+
+        return !$this->check();
+    }
+
+    /**
      * Determine if the current user is authenticated.
      *
      * @return bool
@@ -79,20 +96,32 @@ class PasetoAuthGuard implements Guard
     }
 
     /**
-     * Determine if the current request is a guest user.
-     *
-     * @return bool
+     * @return SymmetricKey
      * @throws TypeError
-     * @throws InvalidVersionException
-     * @throws PasetoException
      */
-    public function guest()
+    private function getSharedKey()
     {
-        if ($this->user !== null) {
-            return false;
+        return SymmetricKey::fromEncodedString(env('PASETO_AUTH_KEY'));
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getIssuer()
+    {
+        return env('PASETO_AUTH_ISSUER');
+    }
+
+    /**
+     * @return string|bool
+     */
+    private function getTokenFromRequest()
+    {
+        if ($token = $this->request->headers->get('Authorization')) {
+            return str_after($token, 'Bearer ');
         }
 
-        return !$this->check();
+        return false;
     }
 
     /**
@@ -111,11 +140,84 @@ class PasetoAuthGuard implements Guard
     {
         $user = $this->provider->retrieveByCredentials($credentials);
 
-        if ($user && $this->provider->validateCredentials($user, $credentials)) {
+        if ($user && $user->verified && $this->provider->validateCredentials($user, $credentials)) {
             return $this->login($user);
         }
 
         return false;
+    }
+
+    /**
+     * @param $user
+     * @return string
+     * @throws TypeError
+     * @throws Exception
+     * @throws InvalidKeyException
+     * @throws PasetoException
+     * @throws InvalidPurposeException
+     */
+    private function login($user)
+    {
+        $this->setUser($user);
+
+        return $this->generateTokenForUser();
+    }
+
+    /**
+     * Set the current user.
+     *
+     * @param  Authenticatable $user
+     * @return $this
+     */
+    public function setUser(Authenticatable $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     * @throws InvalidKeyException
+     * @throws InvalidPurposeException
+     * @throws PasetoException
+     * @throws TypeError
+     */
+    private function generateTokenForUser()
+    {
+        $claims = [
+            'id' => $this->user->id
+        ];
+
+        $token = $this->getTokenBuilder()
+            ->setExpiration(Carbon::now()->addHours($this->getExpireTime()))
+            ->setIssuer($this->getIssuer())
+            ->setClaims($claims);
+
+        return (string)$token;
+    }
+
+    /**
+     * @return Builder
+     * @throws PasetoException
+     * @throws TypeError
+     * @throws InvalidKeyException
+     * @throws InvalidPurposeException
+     */
+    private function getTokenBuilder()
+    {
+        return (new Builder)
+            ->setKey($this->getSharedKey())
+            ->setVersion(new Version2)
+            ->setPurpose(Purpose::local());
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getExpireTime()
+    {
+        return env('PASETO_AUTH_EXPIRE_AFTER_HOURS');
     }
 
     /**
@@ -155,77 +257,6 @@ class PasetoAuthGuard implements Guard
     }
 
     /**
-     * Set the current user.
-     *
-     * @param  Authenticatable $user
-     * @return $this
-     */
-    public function setUser(Authenticatable $user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @param $user
-     * @return string
-     * @throws TypeError
-     * @throws Exception
-     * @throws InvalidKeyException
-     * @throws PasetoException
-     * @throws InvalidPurposeException
-     */
-    private function login($user)
-    {
-        $this->setUser($user);
-
-        return $this->generateTokenForUser();
-    }
-
-    /**
-     * @return string
-     * @throws InvalidKeyException
-     * @throws InvalidPurposeException
-     * @throws PasetoException
-     * @throws TypeError
-     */
-    private function generateTokenForUser()
-    {
-        $claims = [
-            'id' => $this->user->id
-        ];
-
-        $token = $this->getTokenBuilder()
-            ->setExpiration(Carbon::now()->addHours($this->getExpireTime()))
-            ->setIssuer($this->getIssuer())
-            ->setClaims($claims);
-
-        return (string)$token;
-    }
-
-    /**
-     * @return SymmetricKey
-     * @throws TypeError
-     */
-    private function getSharedKey()
-    {
-        return SymmetricKey::fromEncodedString(env('PASETO_AUTH_KEY'));
-    }
-
-    /**
-     * @return string|bool
-     */
-    private function getTokenFromRequest()
-    {
-        if ($token = $this->request->headers->get('Authorization')) {
-            return str_after($token, 'Bearer ');
-        }
-
-        return false;
-    }
-
-    /**
      * Set the current request instance.
      *
      * @param  \Illuminate\Http\Request $request
@@ -236,36 +267,5 @@ class PasetoAuthGuard implements Guard
         $this->request = $request;
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getIssuer()
-    {
-        return env('PASETO_AUTH_ISSUER');
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getExpireTime()
-    {
-        return env('PASETO_AUTH_EXPIRE_AFTER_HOURS');
-    }
-
-    /**
-     * @return Builder
-     * @throws PasetoException
-     * @throws TypeError
-     * @throws InvalidKeyException
-     * @throws InvalidPurposeException
-     */
-    private function getTokenBuilder()
-    {
-        return (new Builder)
-            ->setKey($this->getSharedKey())
-            ->setVersion(new Version2)
-            ->setPurpose(Purpose::local());
     }
 }
