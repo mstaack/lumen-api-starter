@@ -14,7 +14,7 @@ sudo: true
 
 cache:
   directories:
-        - $HOME/.composer/cache
+      - $HOME/.composer/cache
 
 addons:
   apt:
@@ -26,9 +26,6 @@ addons:
 
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS homestead DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;'
-  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('homestead') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-  - sudo mysql_upgrade
-  - sudo service mysql restart
 
 install:
   - travis_retry composer install --no-interaction --prefer-source
