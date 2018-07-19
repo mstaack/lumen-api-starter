@@ -3687,16 +3687,16 @@
         },
         {
             "name": "beyondcode/laravel-dump-server",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beyondcode/laravel-dump-server.git",
-                "reference": "0ebb9f15c04958122430382ad0123e039861605c"
+                "reference": "1e9b872de98595d90e411785925eca4e9f2151b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beyondcode/laravel-dump-server/zipball/0ebb9f15c04958122430382ad0123e039861605c",
-                "reference": "0ebb9f15c04958122430382ad0123e039861605c",
+                "url": "https://api.github.com/repos/beyondcode/laravel-dump-server/zipball/1e9b872de98595d90e411785925eca4e9f2151b6",
+                "reference": "1e9b872de98595d90e411785925eca4e9f2151b6",
                 "shasum": ""
             },
             "require": {
@@ -3721,7 +3721,10 @@
             "autoload": {
                 "psr-4": {
                     "BeyondCode\\DumpServer\\": "src"
-                }
+                },
+                "files": [
+                    "helpers.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3741,7 +3744,7 @@
                 "beyondcode",
                 "laravel-dump-server"
             ],
-            "time": "2018-07-17T07:42:19+00:00"
+            "time": "2018-07-19T13:18:44+00:00"
         },
         {
             "name": "codedungeon/php-cli-colors",
