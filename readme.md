@@ -13,6 +13,7 @@
 
 # Installation
 - run `git clone git@github.com:mstaack/lumen-api-starter.git` 
+- reinit your repository with `rm -rf .git && git init`
 - run `composer install` to install dependencies (consider using homestead via `vagrant up`)
 - copy `env.example` to `.env`
 - Setup your application & auth keys with `composer keys` & check `.env`file (automatically done via composer hook)
