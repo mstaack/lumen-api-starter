@@ -1,10 +1,13 @@
 {
-  "name": "laravel/lumen",
-  "description": "The Laravel Lumen Framework.",
+  "name": "mstaack/lumen-api-starter",
+  "description": "Lumen Starter for APIs",
   "keywords": [
     "framework",
     "laravel",
-    "lumen"
+    "lumen",
+    "json",
+    "rest",
+    "api"
   ],
   "license": "MIT",
   "type": "project",
