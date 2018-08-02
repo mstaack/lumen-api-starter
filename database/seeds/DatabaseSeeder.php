@@ -12,6 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::createFromValues('John Doe', 'demo@demo.com', 'password');
+        $this->call([
+            RolesSeeder::class,
+        ]);
+        User::createFromValues('John Doe', 'demo@demo.com', 'password')->assignRole('administrator');
     }
 }
