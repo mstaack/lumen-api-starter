@@ -46,6 +46,12 @@ $router->group(['prefix' => 'auth', 'as' => 'auth'], function (Router $router) {
 /* Protected Routes */
 $router->group(['middleware' => 'auth'], function (Router $router) {
 
-    //
+    $router->group(['middleware' => 'role:administrator'], function (Router $router) {
+
+        $router->get('/admin', function () {
+            return response()->json(['message' => 'You are authorized as an administrator.']);
+        });
+
+    });
 
 });
