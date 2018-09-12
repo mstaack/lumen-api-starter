@@ -41,7 +41,9 @@ class Authenticate
     {
         if ($this->auth->guard($guard)->guest()) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'errors' => [
+                    'title' => 'Unauthorized'
+                ]
             ], 401);
         }
 
