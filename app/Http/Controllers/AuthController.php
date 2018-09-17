@@ -117,8 +117,12 @@ class AuthController extends Controller
             'password' => 'required|min:8',
         ]);
 
-        User::newPasswordByResetToken($token, $request->input('password'));
+        $user = User::newPasswordByResetToken($token, $request->input('password'));
 
-        return response()->json(['data' => ['message' => 'Password has been changed.']]);
+        if ($user) {
+            return response()->json(['data' => ['message' => 'Password has been changed.']]);
+        } else {
+            return response()->json(['data' => ['message' => 'Invalid password reset token']], 400);
+        }
     }
 }

@@ -124,13 +124,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public static function newPasswordByResetToken($token, $password)
     {
-        $record = DB::table('password_resets')->where(compact('token'))->first();
+        $query = DB::table('password_resets')->where(compact('token'));
+        $record = $query->first();
 
         if (!$record) {
             return false;
         }
 
         $user = self::byEmail($record->email);
+
+        $query->delete();
 
         return $user->setPassword($password);
     }
