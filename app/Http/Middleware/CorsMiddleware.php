@@ -26,7 +26,7 @@ class CorsMiddleware
     public function handle($request, Closure $next)
     {
         if (!$allowedOrigin = env('ALLOWED_ORIGIN')) {
-            return response()->json(['message' => 'No valid cors settings found!'], 401);
+            return response()->json(['data' => ['message' => 'No valid cors settings found!']], 401);
         }
 
         $headers = [

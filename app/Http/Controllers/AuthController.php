@@ -27,7 +27,7 @@ class AuthController extends Controller
      */
     public function getUser()
     {
-        return response()->json(Auth::user());
+        return response()->json(['data' => Auth::user()]);
     }
 
     /**
@@ -43,11 +43,13 @@ class AuthController extends Controller
 
         if (!$token) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'errors' => [
+                'title' => 'Unauthorized'
+                ]
             ], 401);
         }
 
-        return response()->json(['user' => Auth::user(), 'token' => $token]);
+        return response()->json(['data' => ['user' => Auth::user(), 'token' => $token]]);
     }
 
     /**
@@ -65,7 +67,7 @@ class AuthController extends Controller
 
         Mail::to($user)->send(new Welcome($user));
 
-        return response()->json(['message' => 'Account created. Please verify via email.']);
+        return response()->json(['data' => ['message' => 'Account created. Please verify via email.']]);
     }
 
     /**
@@ -79,10 +81,10 @@ class AuthController extends Controller
         $user = User::verifyByToken($token);
 
         if (!$user) {
-            return response()->json(['message' => 'Invalid verification token'], 400);
+            return response()->json(['data' => ['message' => 'Invalid verification token']], 400);
         }
 
-        return response()->json(['message' => 'Account has been verified']);
+        return response()->json(['data' => ['message' => 'Account has been verified']]);
     }
 
     /**
