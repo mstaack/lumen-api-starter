@@ -9,6 +9,7 @@ use App\Mail\PasswordReset;
 use App\Mail\Welcome;
 use App\User;
 use Exception;
+use Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,13 +91,17 @@ class AuthController extends Controller
      */
     public function forgotPassword(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'email' => 'required|exists:users,email'
         ]);
 
-        $user = User::byEmail($request->input('email'));
+        if ($validator->passes()) {
+            $user = User::byEmail($request->input('email'));
 
-        Mail::to($user)->send(new PasswordReset($user));
+            Mail::to($user)->send(new PasswordReset($user));
+        }
+
+        return response()->json(['data' => ['message' => 'Please check your email to reset your password.']]);
     }
 
     /**
@@ -111,5 +116,7 @@ class AuthController extends Controller
         ]);
 
         User::newPasswordByResetToken($token, $request->input('password'));
+
+        return response()->json(['data' => ['message' => 'Password has been changed.']]);
     }
 }
