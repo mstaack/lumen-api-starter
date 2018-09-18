@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ env('APP_LOCALE') }}">
+<html lang="{{ config('app.locale') }}">
 <head>
 </head>
 <body>
