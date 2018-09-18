@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ env('APP_LOCALE') }}">
 <head>
-    <title>Password Reset</title>
 </head>
 <body>
-You have requested to change your password. Use the link below to set a new password.<br/>
-<a href="{{ url('auth/password/recover', ['token' => $token]) }}">POST to this link to set a new password (Usually also via frontend page with forms)</a>
+    {{ trans('messages.password_reset_text', ['website' => config('constants.website_name')]) }}
+    <br/>
+    <a href="{{ config('constants.frontend_url') . '/#/password/recover?token='. $token }}">{{ trans('messages.password_reset_link') }}</a>
 </body>
 </html>

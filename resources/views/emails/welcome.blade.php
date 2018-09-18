@@ -1,13 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ env('APP_LOCALE') }}">
 <head>
-    <title>Please verify your account</title>
 </head>
 <body>
-<h2>Welcome to the site {{$name}},</h2>
-<br/>
-please click on the below link to verify your account.
-<br/>
-<a href="{{ url('auth/verify', ['token' => $token]) }}">Click here to verify your account.</a>
+    <h2>
+        {{ trans('messages.welcome_header', ['website' => config('constants.website_name'), 'name' => $name]) }}.
+    </h2>
+    <br/>
+    {{ trans('messages.welcome_text') }}
+    <br/><br/>
+    <a href="{{ config('constants.frontend_url') . '/#/verification?token='. $token }}">{{ trans('messages.welcome_link') }}</a>
 </body>
 </html>

@@ -34,7 +34,7 @@ class Welcome extends Mailable
     public function build()
     {
         return $this
-            ->subject('Please verify your registration')
+            ->subject(trans('messages.welcome_subject'))
             ->view('emails.welcome')
             ->with(['name' => $this->user->name, 'token' => $this->user->verification_token]);
     }
