@@ -53,6 +53,15 @@ class Handler extends ExceptionHandler
             return $e->getResponse();
         }
 
+        // AuthorizationException
+        if ($e instanceof AuthorizationException) {
+            return response()->json([
+                'errors' => [
+                'title' => 'Unauthorized'
+                ]
+            ], 401);
+        }
+
         //Http Exceptions
         if ($e instanceof HttpException) {
             $response['message'] = $e->getMessage() ?: Response::$statusTexts[$e->getStatusCode()];
