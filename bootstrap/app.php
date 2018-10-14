@@ -37,6 +37,7 @@ $app->withEloquent();
 */
 $app->configure('mail');
 $app->configure('permission');
+$app->configure('constants');
 
 /*
 |--------------------------------------------------------------------------

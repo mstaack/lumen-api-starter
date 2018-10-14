@@ -34,7 +34,7 @@ class PasswordReset extends Mailable
     public function build()
     {
         return $this
-            ->subject('You requested a password reset')
+            ->subject(trans('messages.password_reset_subject'))
             ->view('emails.password-reset')
             ->with(['name' => $this->user->name, 'token' => $this->user->createPasswordRecoveryToken()]);
     }
