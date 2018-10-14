@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+
 
 /**
  * Class AuthController
@@ -42,11 +44,7 @@ class AuthController extends Controller
         $token = Auth::attempt($credentials);
 
         if (!$token) {
-            return response()->json([
-                'errors' => [
-                'title' => 'Unauthorized'
-                ]
-            ], 401);
+            throw new AuthorizationException;
         }
 
         return response()->json(['data' => ['user' => Auth::user(), 'token' => $token]]);
