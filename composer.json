@@ -19,8 +19,8 @@
     "paragonie/paseto": "^0.5.0",
     "itsgoingd/clockwork": "^2.2",
     "pearl/lumen-request-validate": "^1.0",
-    "spatie/laravel-permission": "^2.12",
-    "illuminate/mail": "^5.7"
+    "illuminate/mail": "^5.7",
+    "spatie/laravel-permission": "^2.25"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
