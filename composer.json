@@ -29,8 +29,8 @@
     "barryvdh/laravel-ide-helper": "^2.4",
     "nunomaduro/collision": "^2.0",
     "codedungeon/phpunit-result-printer": "^0.19.10",
-    "laravel/homestead": "^7.12",
-    "beyondcode/laravel-dump-server": "^1.1"
+    "beyondcode/laravel-dump-server": "^1.1",
+    "laravel/homestead": "^7.19"
   },
   "autoload": {
     "psr-4": {
