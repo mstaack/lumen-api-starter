@@ -3,6 +3,7 @@
 // resources/lang/en/messages.php
 
 return [
+    'login_failed' => 'Email address or password is incorrect.',
     'welcome_subject' => 'Please verify your account',
     'welcome_header' => 'Welcome to :Website, :Name',
     'welcome_text' => 'In order to complete your registration, you will have to verify your email address.',
