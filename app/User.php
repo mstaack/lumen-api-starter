@@ -32,10 +32,28 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-//        'password',
+        'password',
         'verified',
-        'verification_token'
+        'verification_token',
+        'roles'
     ];
+    
+    /**
+     * The attributes appended to the model's JSON form.
+     *
+     * @var array
+     */
+    protected $appends = ['roleNames'];
+
+    /**
+     * Get the roles of the user
+     *
+     * @return Array
+     */
+    public function getRoleNamesAttribute()
+    {
+        return $this->roles->pluck('name');
+    }
 
     /**
      * Create a user
