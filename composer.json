@@ -13,15 +13,14 @@
   "type": "project",
   "require": {
     "php": ">=7.1.3",
-    "laravel/lumen-framework": "5.6.*",
+    "laravel/lumen-framework": "5.7.*",
     "vlucas/phpdotenv": "~2.2",
     "flipbox/lumen-generator": "^5.6",
     "paragonie/paseto": "^0.5.0",
     "itsgoingd/clockwork": "^2.2",
     "pearl/lumen-request-validate": "^1.0",
-    "illuminate/mail": "^5.6",
-    "spatie/laravel-permission": "^2.12",
-    "beyondcode/laravel-dump-server": "^1.1"
+    "illuminate/mail": "^5.7",
+    "spatie/laravel-permission": "^2.25"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
@@ -30,7 +29,8 @@
     "barryvdh/laravel-ide-helper": "^2.4",
     "nunomaduro/collision": "^2.0",
     "codedungeon/phpunit-result-printer": "^0.19.10",
-    "laravel/homestead": "^7.12"
+    "beyondcode/laravel-dump-server": "^1.1",
+    "laravel/homestead": "^7.19"
   },
   "autoload": {
     "psr-4": {
