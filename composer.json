@@ -20,7 +20,8 @@
     "itsgoingd/clockwork": "^2.2",
     "pearl/lumen-request-validate": "^1.0",
     "illuminate/mail": "^5.7",
-    "spatie/laravel-permission": "^2.25"
+    "spatie/laravel-permission": "^2.25",
+    "beyondcode/laravel-dump-server": "^1.1"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
@@ -29,7 +30,6 @@
     "barryvdh/laravel-ide-helper": "^2.4",
     "nunomaduro/collision": "^2.0",
     "codedungeon/phpunit-result-printer": "^0.19.10",
-    "beyondcode/laravel-dump-server": "^1.1",
     "laravel/homestead": "^7.19"
   },
   "autoload": {
