@@ -27,6 +27,8 @@ $app->withFacades();
 
 $app->withEloquent();
 
+$app->alias('cache', 'Illuminate\Cache\CacheManager');
+
 /*
 |--------------------------------------------------------------------------
 | Register Configs
