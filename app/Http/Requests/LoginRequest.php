@@ -7,6 +7,14 @@ use Pearl\RequestValidate\RequestAbstract;
 class LoginRequest extends RequestAbstract
 {
     /**
+    * Sanitize request data before validation.
+    */
+    protected function prepareForValidation()
+    {
+        $this->merge(['email' => strtoLower($this->input('email'))]);
+    }
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
