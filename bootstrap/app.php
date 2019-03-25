@@ -38,6 +38,7 @@ $app->alias('cache', 'Illuminate\Cache\CacheManager');
 $app->configure('mail');
 $app->configure('permission');
 $app->configure('constants');
+$app->configure('apidoc');
 
 /*
 |--------------------------------------------------------------------------
@@ -101,7 +102,8 @@ $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
 
 if ($app->environment() !== 'production') {
-    $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+    $app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
+        $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 }
 
 // $app->register(App\Providers\AppServiceProvider::class);

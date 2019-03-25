@@ -21,7 +21,8 @@
     "pearl/lumen-request-validate": "^1.0",
     "illuminate/mail": "^5.7",
     "spatie/laravel-permission": "^2.25",
-    "beyondcode/laravel-dump-server": "^1.1"
+    "beyondcode/laravel-dump-server": "^1.1",
+    "mpociot/laravel-apidoc-generator": "^3.4"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

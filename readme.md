@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.org/mstaack/lumen-api-starter.svg?branch=master)](https://travis-ci.org/mstaack/lumen-api-starter)
 
 # Notes
-- Comes with make & route command for all your needs ;)
-- Uses better jwt token alternative with paseto. Read [Paseto](https://github.com/paragonie/paseto)
+- Comes with make & route command for all your needs
+- Uses jwt token alternative **paseto**. Read [Paseto](https://github.com/paragonie/paseto)
 
 # Included Packages
 - [Clockwork](https://underground.works/clockwork/) Easier debugging with APIs
@@ -12,6 +12,8 @@
 - [Collision](https://github.com/nunomaduro/collision) Better Console Error Handling
 - [Lumen Form Requests](https://github.com/pearlkrishn/lumen-request-validate) Abstract Validation & Authorization into classes
 - [Laravel Dump Server](https://github.com/beyondcode/laravel-dump-server) Dump data to the artisan server
+- [Laravel-Apidoc-Generator](https://mpociot/laravel-apidoc-generator) Generate api docs
+- [spatie/laravel-permission](https://github.com/spatie/laravel-permission) Roles & Permissions
 
 # Installation
 - run `git clone git@github.com:mstaack/lumen-api-starter.git` 
@@ -24,21 +26,23 @@
 - To quickly start a dev server run `./artisan serve` (or via `homestead.test` for the vm)
 - Also consider running `composer meta` when adding models for better autocompletion (automatically done via composer hook)
 - Run included tests with `phpunit` within vagrant's code directory
+- Generate your api docs with `artisan apidoc:generate` 
 
 # Routes
 ```
-vagrant@lumen-api-starter:~/code$ ./artisan route:list
-+------+--------------------------------+-----------------------+-------------------------------------+-----------------+------------+
-| Verb | Path                           | NamedRoute            | Controller                          | Action          | Middleware |
-+------+--------------------------------+-----------------------+-------------------------------------+-----------------+------------+
-| GET  | /                              |                       | None                                | Closure         |            |
-| POST | /auth/register                 | auth.register         | App\Http\Controllers\AuthController | register        |            |
-| POST | /auth/login                    | auth.login            | App\Http\Controllers\AuthController | login           |            |
-| GET  | /auth/verify/{token}           | auth.verify           | App\Http\Controllers\AuthController | verify          |            |
-| POST | /auth/password/forgot          | auth.password.forgot  | App\Http\Controllers\AuthController | forgotPassword  |            |
-| POST | /auth/password/recover/{token} | auth.password.recover | App\Http\Controllers\AuthController | recoverPassword |            |
-| GET  | /auth/user                     | auth.user             | App\Http\Controllers\AuthController | getUser         | auth       |
-+------+--------------------------------+-----------------------+-------------------------------------+-----------------+------------+
+➜  lumen-api-starter git:(update-5.8) ✗ ./artisan route:list
++------+--------------------------------+-----------------------+-------------------------------------+-----------------+--------------------------+
+| Verb | Path                           | NamedRoute            | Controller                          | Action          | Middleware               |
++------+--------------------------------+-----------------------+-------------------------------------+-----------------+--------------------------+
+| GET  | /                              |                       | None                                | Closure         |                          |
+| POST | /auth/register                 | auth.register         | App\Http\Controllers\AuthController | register        |                          |
+| POST | /auth/login                    | auth.login            | App\Http\Controllers\AuthController | login           |                          |
+| GET  | /auth/verify/{token}           | auth.verify           | App\Http\Controllers\AuthController | verify          |                          |
+| POST | /auth/password/forgot          | auth.password.forgot  | App\Http\Controllers\AuthController | forgotPassword  |                          |
+| POST | /auth/password/recover/{token} | auth.password.recover | App\Http\Controllers\AuthController | recoverPassword |                          |
+| GET  | /auth/user                     | auth.user             | App\Http\Controllers\AuthController | getUser         | auth                     |
+| GET  | /admin                         |                       | None                                | Closure         | auth, role:administrator |
++------+--------------------------------+-----------------------+-------------------------------------+-----------------+--------------------------+
 ```
 
 # Artisan Commands

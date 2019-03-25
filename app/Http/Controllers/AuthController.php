@@ -9,21 +9,24 @@ use App\Mail\PasswordReset;
 use App\Mail\Welcome;
 use App\User;
 use Exception;
-use Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Validator;
 
 
 /**
  * Class AuthController
+ * @group Auth
  * @package App\Http\Controllers
  */
 class AuthController extends Controller
 {
     /**
+     * Current User
+     * @authenticated
      * @return JsonResponse
      */
     public function getUser()
@@ -32,8 +35,12 @@ class AuthController extends Controller
     }
 
     /**
-     * @param LoginRequest $request
+     * Login
      *
+     * @bodyParam email string required The email
+     * @bodyParam password string required The password
+     *
+     * @param LoginRequest $request
      * @return JsonResponse
      */
     public function login(LoginRequest $request)
@@ -50,8 +57,13 @@ class AuthController extends Controller
     }
 
     /**
-     * @param RegisterRequest $request
+     * Register
      *
+     * @bodyParam email string required The email
+     * @bodyParam password string required The password
+     * @bodyParam name string required The name
+     *
+     * @param RegisterRequest $request
      * @return JsonResponse
      */
     public function register(RegisterRequest $request)
@@ -68,9 +80,12 @@ class AuthController extends Controller
     }
 
     /**
-     * @param String $token
+     * Verify User
      *
-     * @return Response
+     * @queryParam token required The token
+     *
+     * @param String $token
+     * @return JsonResponse
      * @throws Exception
      */
     public function verify($token)
@@ -85,8 +100,12 @@ class AuthController extends Controller
     }
 
     /**
+     * Send new Password Request
+     *
+     * @bodyParam email string required The email
+     *
      * @param Request $request
-     * @throws ValidationException
+     * @return JsonResponse
      */
     public function forgotPassword(Request $request)
     {
@@ -104,8 +123,13 @@ class AuthController extends Controller
     }
 
     /**
+     * Create new P assword
+     *
+     * @bodyParam password string required The new password
+     *
      * @param Request $request
      * @param $token
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function recoverPassword(Request $request, $token)
