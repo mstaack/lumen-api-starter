@@ -2,11 +2,9 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-try {
-    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
-    //
-}
+(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
+    dirname(__DIR__)
+))->bootstrap();
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +38,7 @@ $app->alias('cache', 'Illuminate\Cache\CacheManager');
 $app->configure('mail');
 $app->configure('permission');
 $app->configure('constants');
+$app->configure('apidoc');
 
 /*
 |--------------------------------------------------------------------------
@@ -103,7 +102,8 @@ $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
 
 if ($app->environment() !== 'production') {
-    $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+    $app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
+        $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 }
 
 // $app->register(App\Providers\AppServiceProvider::class);
