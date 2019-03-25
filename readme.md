@@ -1,4 +1,4 @@
-# Lumen 5.7 API Starter with Paseto[![Build Status](https://travis-ci.org/mstaack/lumen-api-starter.svg?branch=master)](https://travis-ci.org/mstaack/lumen-api-starter)
+# Lumen 5.8 API Starter with Paseto[![Build Status](https://travis-ci.org/mstaack/lumen-api-starter.svg?branch=master)](https://travis-ci.org/mstaack/lumen-api-starter)
 
 # Notes
 - Comes with make & route command for all your needs ;)
