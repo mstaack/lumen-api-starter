@@ -128,3 +128,7 @@ Available commands:
  schedule
   schedule:run              Run the scheduled commands
 ```
+
+# Generated Docs Screenshot
+
+![image](https://user-images.githubusercontent.com/10169509/54946091-a154de00-4f37-11e9-8a96-3ce71c189b6d.png)
